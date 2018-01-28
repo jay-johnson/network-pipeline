@@ -1,0 +1,9 @@
+{
+    "record_tcp": true,
+    "record_udp": true,
+    "record_arp": true,
+    "record_icmp": true,
+    "pub_type": "redis",
+    "pub_host": "redis",
+    "pub_port": 6739
+}

@@ -1,0 +1,4 @@
+*.nohup
+*.log
+*.csv
+*.json

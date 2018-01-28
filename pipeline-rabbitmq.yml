@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+
+  # netpipe-rabbitmq
+  # subscribed to rabbitmq NEW_PACKETS key
+  # for networking packets to process
+  netpipe-rabbitmq:
+    container_name: "netpipe-rabbitmq"
+    hostname: netpiperabbitmq
+    image: jayjohnson/network-pipeline:latest
+    volumes:
+      - ./data:/opt/data
+    environment:
+      # name of the csv data set file 
+      # and json archive
+      - DS_NAME=owasp-zap-training
+      - DS_DIR=/opt/data
+      # tracking label
+      - SOURCE_HOST=localdev
+      # connectivity to rabbitmq
+      - FORWARD_BROKER_URL=rabbitmq://rabbitmq:rabbitmq@localhost:5672//
+      # save every nth packet
+      - SAVE_AFTER_NUM=100
+      # stop processing after nth packets
+      - STOP_AFTER_NUM=-1
+      # stop if this file exists
+      - STOP_FILE=/opt/data/stop-running
+      # debug packet processing
+      - DEBUG_PACKETS=0
+    labels:
+      NAME: "netpipe-rabbitmq"
+      BROKER: "rabbitmq"
+    network_mode: "host"

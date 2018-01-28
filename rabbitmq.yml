@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+
+  # RabbitMQ
+  nrabbit1:
+    container_name: "nrabbit1"
+    image: "rabbitmq:3.6.6-management"
+    hostname: "rabbit1"
+    env_file:
+      - ./docker/env/rabbit1-dev.env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "25672:25672"
+    volumes:
+      - ./docker/rabbitmq_enabled_plugins:/etc/rabbitmq/enabled_plugins

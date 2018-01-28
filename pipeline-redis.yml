@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+
+  # netpipe-redis
+  # subscribed to redis NEW_PACKETS key
+  # for networking packets to process
+  netpipe-redis:
+    container_name: "netpipe-redis"
+    hostname: netpiperedis
+    image: jayjohnson/network-pipeline:latest
+    volumes:
+      - ./data:/opt/data
+    environment:
+      # name of the csv data set file 
+      # and json archive
+      - DS_NAME=owasp-zap-training
+      - DS_DIR=/opt/data
+      # tracking label
+      - SOURCE_HOST=localdev
+      # connectivity to redis
+      # rabbitmq is supported as well
+      # but the capture tools need to export
+      # the FORWARD_BROKER_URL as well for
+      # pub/sub to work
+      - FORWARD_BROKER_URL=redis://localhost:6379/0
+      # save every nth packet
+      - SAVE_AFTER_NUM=100
+      # stop processing after nth packets
+      - STOP_AFTER_NUM=-1
+      # stop if this file exists
+      - STOP_FILE=/opt/data/stop-running
+      # debug packet processing
+      - DEBUG_PACKETS=0
+    labels:
+      NAME: "netpipe-redis"
+      BROKER: "redis"
+    network_mode: "host"
