@@ -1,16 +1,21 @@
 Network Data Analysis Pipeline
 ==============================
 
+.. image:: https://github.com/jay-johnson/network-pipeline/blob/master/docker/images/network-pipeline-workflow.png
+    :align: center
+
 This is a distributed python 3 framework for automating network traffic capture and converting it into a csv file. Once you have a csv file you can build, train and tune machine learning models to defend your own infrastructure by actively monitoring the network layer.
 
 There are many choices to build a machine learning or AI model but for now I am using `Jupyter Hub`_ to build a pre-trained model for defending against `OWASP Dynamic Analysis tools for finding vulnerabilities`_ running in my `owasp-jenkins`_ repository.
 
-.. image:: https://github.com/jay-johnson/network-pipeline/blob/master/docker/images/network-pipeline-workflow.png
-    :align: center
+- Please refer to the `simulations directory`_ for capturing simulated attacks using tools like ZAP
+- Please refer to the `datasets repository`_ for captured recordings if you want to see what some of the data will look like
 
 .. _Jupyter Hub: https://github.com/jay-johnson/celery-connectors#running-jupyterhub-with-postgres-and-ssl
 .. _OWASP Dynamic Analysis tools for finding vulnerabilities: https://www.owasp.org/index.php/Category:Vulnerability_Scanning_Tools
 .. _owasp-jenkins: https://github.com/jay-johnson/owasp-jenkins
+.. _simulations directory: https://github.com/jay-johnson/network-pipeline/tree/master/simulations
+.. _datasets repository: https://github.com/jay-johnson/network-pipeline-datasets
 
 Why?
 ====
@@ -114,7 +119,7 @@ How do I get started?
 
         git clone https://github.com/jay-johnson/network-pipeline.git
         cd network-pipeline
-        virtualenv -m python3 /tmp/netpipevenv && source /tmp/netpipevenv/bin/activate && pip install -e .
+        virtualenv -p python3 /tmp/netpipevenv && source /tmp/netpipevenv/bin/activate && pip install -e .
 
 #.  Start Redis
 
@@ -226,9 +231,24 @@ Scapy_ currently provides the traffic capture tooling, but the code already has 
         source /tmp/netpipevenv/bin/activate && ./network_pipeline/scripts/capture-icmp.py
 
 Simulating Network Traffic
---------------------------
+==========================
 
-I will be updating this guide with ZAP tests in the future but for now here's tools to start simulating network traffic for seeding your csv datasets.
+ZAP Testing with Web Applications
+---------------------------------
+
+.. image:: https://www.owasp.org/images/1/11/Zap128x128.png
+    :align: center
+
+Right now I have ZAPv2 simulations targeting a Django 2.0.1 server, and I will be updating this guide with more ZAP simulation tests in the future.
+
+Please refer to the `Simulations README`_ for more details on running these to capture network traffic during an attack.
+
+.. _Simulations README: https://github.com/jay-johnson/network-pipeline/tree/master/simulations#network-traffic-simulations
+
+Quick Simulations
+-----------------
+
+If you want to just get started, here are some commands and tools to start simulating network traffic for seeding your csv datasets.
 
 #.  Send a TCP message
 
@@ -379,7 +399,7 @@ Linting
 
 flake8 .
 
-pycodestyle
+pycodestyle --exclude=./simulations,.tox,.eggs
 
 License
 -------

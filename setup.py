@@ -28,9 +28,11 @@ install_requires = [
     "netifaces",
     "pandas",
     "pep8>=1.7.1",
+    "pipenv",
     "pydocstyle",
-    "python-logstash",
     "pylint",
+    "python-logstash",
+    "python-owasp-zap-v2.4",
     "scapy-python3",
     "tox",
     "unittest2",
@@ -56,7 +58,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.1",
+    version="1.0.2",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +
