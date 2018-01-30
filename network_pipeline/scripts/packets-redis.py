@@ -9,7 +9,7 @@ from network_pipeline.log.setup_logging import setup_logging
 from network_pipeline.record_packets_to_csv import RecordPacketsToCSV
 
 
-setup_logging()
+setup_logging(config_name="packets-redis-logging.json")
 name = "kombu-redis-sub"
 log = logging.getLogger(name)
 
