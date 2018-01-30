@@ -1,0 +1,8 @@
+petclinic:
+  image: anthonydahanne/spring-petclinic-clustered:4.3.2
+  ports:
+   - "8080:9966"
+  links:
+   - tsa
+tsa:
+  image: anthonydahanne/terracotta-server-oss:4.3.2

@@ -16,4 +16,3 @@ docker logs zap
 docker ps -a | grep zap
 
 echo "zap should be ready"
-docker exec -it zap zap-cli quick-scan -s xss,sqli --spider -r -e '*' http://localhost:8080/

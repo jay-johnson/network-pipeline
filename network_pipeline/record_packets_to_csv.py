@@ -425,7 +425,6 @@ class RecordPacketsToCSV:
 
         flat_msg = {}
 
-        # end of building the raw
         for k in dt:
             new_key = "raw_{}".format(k)
             flat_msg[new_key] = dt[k]["0"]
@@ -709,6 +708,7 @@ class RecordPacketsToCSV:
                      .format(self.df))
             return
         else:
+
             log.info(("saving "
                       "packets={} file={} rows={}")
                      .format(len(self.recv_msgs),

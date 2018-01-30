@@ -8,7 +8,7 @@ This is a distributed python 3 framework for automating network traffic capture 
 
 There are many choices to build a machine learning or AI model but for now I am using `Jupyter Hub`_ to build a pre-trained model for defending against `OWASP Dynamic Analysis tools for finding vulnerabilities`_ running in my `owasp-jenkins`_ repository.
 
-- Please refer to the `simulations directory`_ for capturing simulated attacks using tools like ZAP
+- Please refer to the `simulations directory`_ for capturing simulated attacks using ZAP with Django, Flask, React, Vue, and Spring
 - Please refer to the `datasets repository`_ for captured recordings if you want to see what some of the data will look like
 
 .. _Jupyter Hub: https://github.com/jay-johnson/celery-connectors#running-jupyterhub-with-postgres-and-ssl
@@ -24,7 +24,7 @@ After digging into how `Internet Chemotherapy`_ worked with a simple `Nerfball a
 
 This repository automates dataset creation for training models by capturing network traffic on layers 2, 3 and 4 of the `OSI model`_. I hope to have functional, deployable, pre-trained models for django and flask soon... 
 
-Stay tuned and **please reach out if you are interested in helping everyone protect our mission-critical and personal infrastructure**.
+Stay tuned and please reach out if you are interested in helping.
 
 .. _Internet Chemotherapy: https://0x00sec.org/t/internet-chemotherapy/4664
 .. _Nerfball approach: https://github.com/jay-johnson/nerfball
@@ -239,7 +239,21 @@ ZAP Testing with Web Applications
 .. image:: https://www.owasp.org/images/1/11/Zap128x128.png
     :align: center
 
-Right now I have ZAPv2 simulations targeting a Django 2.0.1 server, and I will be updating this guide with more ZAP simulation tests in the future.
+The repository includes ZAPv2 simulations targeting the follow application servers:
+
+- `Django 2.0.1`_
+- `Flask RESTplus with Swagger`_
+- `React + Redux`_
+- `Vue`_
+- `Spring Pet Clinic`_
+  
+.. _Django 2.0.1: https://github.com/jay-johnson/network-pipeline/tree/master/simulations/django
+.. _Flask RESTplus with Swagger: https://github.com/jay-johnson/network-pipeline/tree/master/simulations/flask
+.. _React + Redux: https://github.com/jay-johnson/network-pipeline/tree/master/simulations/react-redux
+.. _Spring Pet Clinic: https://github.com/jay-johnson/network-pipeline/tree/master/simulations/spring
+.. _Vue: https://github.com/jay-johnson/network-pipeline/tree/master/simulations/vue
+
+I will be updating this guide with more ZAP simulation tests in the future.
 
 Please refer to the `Simulations README`_ for more details on running these to capture network traffic during an attack.
 
@@ -278,7 +292,7 @@ If you want to just get started, here are some commands and tools to start simul
 
         2018-01-27T17:40:04.915469 received UDP data=testing UDP msg time=2018-01-27 17:40:04 - cc9cdc1a-a900-48c5-acc9-b8ff5919087b 
 
-#.  Simulate traffic with comon shell tools
+#.  Simulate traffic with common shell tools
 
     ::
 
@@ -306,9 +320,13 @@ If you want to just get started, here are some commands and tools to start simul
 Capturing an API Simulation
 ---------------------------
 
-API analysis using `ZAP`_ is coming soon, but for now a simple POST works too.
+More simulations that can automate + fuzz authenticated REST API service layers like `ZAP`_ are coming soon, but for now a simple POST works too. The included `Flask ZAP Simulation`_ does login using OAuth 2.0 with ZAP for REST API validation, but there is a known issue with the swagger openapi integration within ZAP that limits the functionality (for now):
+
+https://github.com/zaproxy/zaproxy/issues/4072
 
 .. _ZAP: https://github.com/zaproxy/zaproxy
+
+.. _Flask ZAP Simulation: https://github.com/jay-johnson/network-pipeline/blob/master/simulations/zap/tests/flask-zap.py#L26
 
 #.  Start a local server listening on TCP port 80
 
