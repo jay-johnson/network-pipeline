@@ -58,7 +58,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.4",
+    version="1.0.5",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +
@@ -79,6 +79,10 @@ setup(
     "https://github.com/jay-johnson/celery-connectors" +
     "#running-jupyterhub-with-postgres-and-ssl " +
     "or your ML/AI framework of choice. " +
+    "\n" +
+    "This pip also has an example for training a Keras Deep "
+    "Neural Network model to predict attack and non-attack records " +
+    "using a captured and prepared dataset. " +
     "\n" +
     "There are test tools installed with this pip to quickly " +
     "send mock: TCP, UDP, ARP and ICMP packets. " +
@@ -118,6 +122,8 @@ setup(
         "network_pipeline/scripts/udp-send-msg.py",
         "network_pipeline/scripts/packets-redis.py",
         "network_pipeline/scripts/packets-rabbitmq.py",
+        "network_pipeline/scripts/builders/prepare-dataset.py",
+        "network_pipeline/scripts/modelers/keras-dnn.py",
         "network_pipeline/scripts/start-container.sh"
     ],
     use_2to3=True,
