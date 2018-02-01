@@ -53,33 +53,33 @@ def find_all_headers(pipeline_files=[],
 
 def build_csv(
         pipeline_files=[],
-        merge_file=None,
-        output_file=None,
+        fulldata_file=None,
+        clean_file=None,
         post_proc_rules=None,
         label_rules=None,
-        headers_filename="headers.json"):
+        metadata_filename="metadata.json"):
 
     save_node = {
         "status": INVALID,
         "pipeline_files": pipeline_files,
         "post_proc_rules": post_proc_rules,
         "label_rules": label_rules,
-        "merge_file": merge_file,
-        "merge_header_file": None,
-        "output_file": output_file,
-        "output_header_file": None,
+        "fulldata_file": fulldata_file,
+        "fulldata_metadata_file": None,
+        "clean_file": clean_file,
+        "clean_metadata_file": None,
         "features_to_process": [],
         "feature_to_predict": None,
         "ignore_features": [],
         "df_json": {}
     }
 
-    if not merge_file:
-        log.error("missing merge_file - stopping")
+    if not fulldata_file:
+        log.error("missing fulldata_file - stopping")
         save_node["status"] = INVALID
         return save_node
-    if not output_file:
-        log.error("missing output_file - stopping")
+    if not clean_file:
+        log.error("missing clean_file - stopping")
         save_node["status"] = INVALID
         return save_node
 
@@ -148,45 +148,31 @@ def build_csv(
         num_done += 1
     # end of building all files into one list
 
-    log.info(("merged rows={} generating df")
+    log.info(("fulldata rows={} generating df")
              .format(len(all_rows)))
     df = pd.DataFrame(all_rows)
     log.info(("df rows={} headers={}")
              .format(len(df.index),
                      df.columns.values))
 
-    if output_file:
-        log.info(("writing merge_file={}")
-                 .format(merge_file))
-        df.to_csv(merge_file,
+    if ev("CONVERT_DF",
+          "0") == "1":
+        log.info("converting df to json")
+        save_node["df_json"] = df.to_json()
+
+    if clean_file:
+        log.info(("writing fulldata_file={}")
+                 .format(fulldata_file))
+        df.to_csv(fulldata_file,
                   sep=',',
                   encoding='utf-8',
                   index=False)
-        log.info(("done writing merge_file={}")
-                 .format(merge_file))
-
-        merge_header_file = "{}/merge_{}".format(
-            "/".join(merge_file.split("/")[:-1]),
-            headers_filename)
-        log.info(("dropping merge headers file={}")
-                 .format(merge_header_file))
-        header_data = {"headers": list(df.columns.values),
-                       "output_type": "merge",
-                       "pipeline_files": pipeline_files,
-                       "post_proc_rules": post_proc_rules,
-                       "label_rules": label_rules,
-                       "created": rnow()}
-        with open(merge_header_file, "w") as otfile:
-            otfile.write(str(ppj(header_data)))
-
-        save_node["merge_file"] = merge_file
-        save_node["merge_header_file"] = merge_header_file
-
-        save_node["df_json"] = df.to_json()
+        log.info(("done writing fulldata_file={}")
+                 .format(fulldata_file))
 
         if post_proc_rules:
 
-            output_header_file = ""
+            clean_metadata_file = ""
 
             feature_to_predict = "label_name"
             features_to_process = []
@@ -212,30 +198,13 @@ def build_csv(
                 # for all df columns we're not ignoring...
                 # add them as features to process
 
-                log.info(("writing DROPPED output_file={} "
-                          "features_to_process={}"
-                          "ignore_features={}"
-                          "predict={}")
-                         .format(output_file,
-                                 features_to_process,
-                                 ignore_features,
-                                 feature_to_predict))
-
-                df.drop(
-                    columns=ignore_features
-                ).to_csv(output_file,
-                         header=False,
-                         sep=',',
-                         encoding='utf-8',
-                         index=False)
-
-                output_header_file = "{}/output_{}".format(
-                    "/".join(output_file.split("/")[:-1]),
-                    headers_filename)
-                log.info(("dropping headers file={}")
-                         .format(output_header_file))
+                fulldata_metadata_file = "{}/fulldata_{}".format(
+                    "/".join(fulldata_file.split("/")[:-1]),
+                    metadata_filename)
+                log.info(("writing fulldata metadata file={}")
+                         .format(fulldata_metadata_file))
                 header_data = {"headers": list(df.columns.values),
-                               "output_type": "output",
+                               "output_type": "fulldata",
                                "pipeline_files": pipeline_files,
                                "post_proc_rules": post_proc_rules,
                                "label_rules": label_rules,
@@ -243,7 +212,77 @@ def build_csv(
                                "feature_to_predict": feature_to_predict,
                                "ignore_features": ignore_features,
                                "created": rnow()}
-                with open(output_header_file, "w") as otfile:
+
+                with open(fulldata_metadata_file, "w") as otfile:
+                    otfile.write(str(ppj(header_data)))
+
+                keep_these = features_to_process
+                keep_these.append(feature_to_predict)
+
+                log.info(("creating new clean_file={} "
+                          "keep_these={} "
+                          "predict={}")
+                         .format(clean_file,
+                                 keep_these,
+                                 feature_to_predict))
+
+                # need to remove all columns that are all nan
+                clean_df = df[keep_these].dropna(
+                                axis=1, how='all').dropna()
+
+                cleaned_features = clean_df.columns.values
+                cleaned_to_process = []
+                cleaned_ignore_features = []
+                for c in cleaned_features:
+                    if c == feature_to_predict:
+                        cleaned_ignore_features.append(c)
+                    else:
+                        keep_it = True
+                        for ign in ignore_features:
+                            if c == ign:
+                                cleaned_ignore_features.append(c)
+                                keep_it = False
+                                break
+                        # end of for all feaures to remove
+                        if keep_it:
+                            cleaned_to_process.append(c)
+                # end of new feature columns
+
+                log.info(("writing DROPPED clean_file={} "
+                          "features_to_process={} "
+                          "ignore_features={} "
+                          "predict={}")
+                         .format(clean_file,
+                                 cleaned_to_process,
+                                 cleaned_ignore_features,
+                                 feature_to_predict))
+
+                write_clean_df = clean_df.drop(
+                    columns=cleaned_ignore_features
+                )
+                log.info(("cleaned_df rows={}")
+                         .format(len(write_clean_df.index)))
+                write_clean_df.to_csv(
+                         clean_file,
+                         sep=',',
+                         encoding='utf-8',
+                         index=False)
+
+                clean_metadata_file = "{}/cleaned_{}".format(
+                    "/".join(clean_file.split("/")[:-1]),
+                    metadata_filename)
+                log.info(("writing clean metadata file={}")
+                         .format(clean_metadata_file))
+                header_data = {"headers": list(write_clean_df.columns.values),
+                               "output_type": "clean",
+                               "pipeline_files": pipeline_files,
+                               "post_proc_rules": post_proc_rules,
+                               "label_rules": label_rules,
+                               "features_to_process": cleaned_to_process,
+                               "feature_to_predict": feature_to_predict,
+                               "ignore_features": cleaned_ignore_features,
+                               "created": rnow()}
+                with open(clean_metadata_file, "w") as otfile:
                     otfile.write(str(ppj(header_data)))
             else:
 
@@ -258,28 +297,13 @@ def build_csv(
                 # for all df columns we're not ignoring...
                 # add them as features to process
 
-                log.info(("writing output_file={} "
-                          "features_to_process={}"
-                          "ignore_features={}"
-                          "predict={}")
-                         .format(output_file,
-                                 features_to_process,
-                                 ignore_features,
-                                 feature_to_predict))
-
-                df.to_csv(output_file,
-                          header=False,
-                          sep=',',
-                          encoding='utf-8',
-                          index=False)
-
-                output_header_file = "{}/output_{}".format(
-                    "/".join(output_file.split("/")[:-1]),
-                    headers_filename)
-                log.info(("dropping headers file={}")
-                         .format(output_header_file))
+                fulldata_metadata_file = "{}/fulldata_{}".format(
+                    "/".join(fulldata_file.split("/")[:-1]),
+                    metadata_filename)
+                log.info(("writing fulldata metadata file={}")
+                         .format(fulldata_metadata_file))
                 header_data = {"headers": list(df.columns.values),
-                               "output_type": "output",
+                               "output_type": "fulldata",
                                "pipeline_files": pipeline_files,
                                "post_proc_rules": post_proc_rules,
                                "label_rules": label_rules,
@@ -287,17 +311,90 @@ def build_csv(
                                "feature_to_predict": feature_to_predict,
                                "ignore_features": ignore_features,
                                "created": rnow()}
-                with open(output_header_file, "w") as otfile:
+
+                with open(fulldata_metadata_file, "w") as otfile:
+                    otfile.write(str(ppj(header_data)))
+
+                keep_these = features_to_process
+                keep_these.append(feature_to_predict)
+
+                log.info(("creating new clean_file={} "
+                          "keep_these={} "
+                          "predict={}")
+                         .format(clean_file,
+                                 keep_these,
+                                 feature_to_predict))
+
+                # need to remove all columns that are all nan
+                clean_df = df[keep_these].dropna(
+                                axis=1, how='all').dropna()
+
+                cleaned_features = clean_df.columns.values
+                cleaned_to_process = []
+                cleaned_ignore_features = []
+                for c in cleaned_features:
+                    if c == feature_to_predict:
+                        cleaned_ignore_features.append(c)
+                    else:
+                        keep_it = True
+                        for ign in ignore_features:
+                            if c == ign:
+                                cleaned_ignore_features.append(c)
+                                keep_it = False
+                                break
+                        # end of for all feaures to remove
+                        if keep_it:
+                            cleaned_to_process.append(c)
+                # end of new feature columns
+
+                log.info(("writing DROPPED clean_file={} "
+                          "features_to_process={} "
+                          "ignore_features={} "
+                          "predict={}")
+                         .format(clean_file,
+                                 cleaned_to_process,
+                                 cleaned_ignore_features,
+                                 feature_to_predict))
+
+                write_clean_df = clean_df.drop(
+                    columns=cleaned_ignore_features
+                )
+                log.info(("cleaned_df rows={}")
+                         .format(len(write_clean_df.index)))
+                write_clean_df.to_csv(
+                         clean_file,
+                         sep=',',
+                         encoding='utf-8',
+                         index=False)
+
+                clean_metadata_file = "{}/cleaned_{}".format(
+                    "/".join(clean_file.split("/")[:-1]),
+                    metadata_filename)
+                log.info(("writing clean metadata file={}")
+                         .format(clean_metadata_file))
+                header_data = {"headers": list(write_clean_df.columns.values),
+                               "output_type": "clean",
+                               "pipeline_files": pipeline_files,
+                               "post_proc_rules": post_proc_rules,
+                               "label_rules": label_rules,
+                               "features_to_process": cleaned_to_process,
+                               "feature_to_predict": feature_to_predict,
+                               "ignore_features": cleaned_ignore_features,
+                               "created": rnow()}
+                with open(clean_metadata_file, "w") as otfile:
                     otfile.write(str(ppj(header_data)))
 
             # end of if/else
 
-            save_node["output_file"] = output_file
-            save_node["output_header_file"] = output_header_file
+            save_node["clean_file"] = clean_file
+            save_node["clean_metadata_file"] = clean_metadata_file
 
-            log.info(("done writing output_file={}")
-                     .format(output_file))
+            log.info(("done writing clean_file={}")
+                     .format(clean_file))
         # end of post_proc_rules
+
+        save_node["fulldata_file"] = fulldata_file
+        save_node["fulldata_metadata_file"] = fulldata_metadata_file
 
         save_node["status"] = VALID
     # end of writing the file
@@ -333,17 +430,17 @@ def find_all_pipeline_csvs(
 # end of find_all_pipeline_csvs
 
 
-output_dir = ev(
+clean_dir = ev(
                 "OUTPUT_DIR",
                 "/tmp")
-output_file = ev(
-                "OUTPUT_FILE",
-                "{}/only_attack_scans.csv".format(
-                    output_dir))
-merge_file = ev(
-                "MERGE_FILE",
-                "{}/merge_only_attack_scans.csv".format(
-                    output_dir))
+clean_file = ev(
+                "CLEANED_FILE",
+                "{}/cleaned_attack_scans.csv".format(
+                    clean_dir))
+fulldata_file = ev(
+                "FULLDATA_FILE",
+                "{}/fulldata_attack_scans.csv".format(
+                    clean_dir))
 dataset_dir = ev(
                 "DS_DIR",
                 "/opt/datasets")
@@ -362,7 +459,11 @@ post_proc_rules = {
         "raw_load",
         "raw_hex_load",
         "raw_hex_field_load",
-        "pad_load"
+        "pad_load",
+        "eth_dst",  # need to make this an int
+        "eth_src",  # need to make this an int
+        "ip_dst",   # need to make this an int
+        "ip_src"    # need to make this an int
     ],
     "predict_feature": "label_name"
 }
@@ -377,8 +478,8 @@ log.info("building csv")
 
 save_node = build_csv(
     pipeline_files=pipeline_files,
-    merge_file=merge_file,
-    output_file=output_file,
+    fulldata_file=fulldata_file,
+    clean_file=clean_file,
     post_proc_rules=post_proc_rules,
     label_rules=label_rules)
 
@@ -387,14 +488,14 @@ if save_node["status"] == VALID:
 
     if ev("SHOW_SUMMARY",
           "1") == "1":
-        log.info(("Merge csv: {}")
-                 .format(save_node["merge_file"]))
-        log.info(("Merge headers: {}")
-                 .format(save_node["merge_header_file"]))
-        log.info(("Output csv: {}")
-                 .format(save_node["output_file"]))
-        log.info(("Output headers: {}")
-                 .format(save_node["output_header_file"]))
+        log.info(("Full csv: {}")
+                 .format(save_node["fulldata_file"]))
+        log.info(("Full meta: {}")
+                 .format(save_node["fulldata_metadata_file"]))
+        log.info(("Clean csv: {}")
+                 .format(save_node["clean_file"]))
+        log.info(("Clean meta: {}")
+                 .format(save_node["clean_metadata_file"]))
         log.info("------------------------------------------")
         log.info(("Predicting Feature: {}")
                  .format(save_node["feature_to_predict"]))
@@ -407,7 +508,10 @@ if save_node["status"] == VALID:
 
     log.info("")
     log.info("done saving csv:")
-    log.info("{}".format(save_node["merge_file"]))
+    log.info("Full: {}".format(
+        save_node["fulldata_file"]))
+    log.info("Cleaned (no-NaNs in columns): {}".format(
+        save_node["clean_file"]))
     log.info("")
 else:
     log.info("Failed to process datasets")

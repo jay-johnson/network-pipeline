@@ -25,10 +25,10 @@ np.random.seed(seed)
 
 csv_file = ev(
     "CSV_FILE",
-    "/tmp/merge_only_attack_scans.csv")
+    "/tmp/cleaned_attack_scans.csv")
 meta_file = ev(
     "CSV_META_FILE",
-    "/tmp/merge_headers.json")
+    "/tmp/cleaned_metadata.json")
 
 if not os.path.exists(csv_file):
     log.error(("missing csv_file={}")
@@ -51,7 +51,7 @@ test_size = float(ev(
     "0.20"))
 train_size = 1.0 - test_size
 
-feature_to_process = []
+features_to_process = []
 ignore_features = [
     "label_name",
     "ip_src",   # need to make this an int
@@ -86,25 +86,25 @@ for feature in df.columns.values:
         if feature == ign:
             keep_it = False
     if keep_it:
-        feature_to_process.append(feature)
+        features_to_process.append(feature)
 # end of for all features to process
 
 log.info(("Predicting={} with features={} "
           "ignore_features={} records={}")
          .format(predict_feature,
-                 feature_to_process,
+                 features_to_process,
                  ignore_features,
                  len(df.index)))
 
 # split the data into training
 (X_train, X_test, Y_train, Y_test) = \
-        train_test_split(df[feature_to_process],
+        train_test_split(df[features_to_process],
                          df[predict_feature],
                          test_size=test_size,
                          random_state=seed)
 
 log.info(("splitting rows={} into "
-          "X_train={} X_test={}"
+          "X_train={} X_test={} "
           "Y_train={} Y_test={}")
          .format(len(df.index),
                  len(X_train),
@@ -117,7 +117,7 @@ log.info("creating sequential model")
 # create the model
 model = Sequential()
 model.add(Dense(8,
-                input_dim=len(feature_to_process),
+                input_dim=len(features_to_process),
                 kernel_initializer="uniform",
                 activation="relu"))
 model.add(Dense(6,
@@ -140,9 +140,9 @@ log.info("fitting model - please wait")
 model.fit(X_train,
           Y_train,
           validation_data=(X_test, Y_test),
-          epochs=200,
-          batch_size=5,
-          verbose=0)
+          epochs=50,
+          batch_size=2,
+          verbose=1)
 
 # evaluate the model
 scores = model.evaluate(X_test, Y_test)

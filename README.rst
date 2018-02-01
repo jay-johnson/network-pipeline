@@ -10,7 +10,7 @@ There are many choices to build a machine learning or AI model but for now I am 
 
 - Please refer to the `Simulations directory`_ for capturing simulated attacks using ZAP with Django, Flask, React, Vue, and Spring
 - Please refer to the `Prepare Dataset section`_ for preparing training csvs from captured recordings
-- Please refer to the `Train Models section`_ for training machine learning and AI models from prepared csvs
+- Please refer to the `Train Models section`_ for training machine learning and AI models from prepared csvs (included logs showing one with an **83.33%** accuracy predicting **attack** vs **non-attack** records)
 - Please refer to the `Datasets repository`_ for captured recordings if you want to see what some of the data will look like
 
 .. _Jupyter Hub: https://github.com/jay-johnson/celery-connectors#running-jupyterhub-with-postgres-and-ssl
@@ -451,14 +451,14 @@ This will take a few moments to prepare the csv files.
 ::
 
     prepare-dataset.py
-    INFO:builder:start - builder
-    INFO:builder:finding pipeline csvs in dir=/opt/datasets/*/*.csv
-    INFO:builder:adding file=/opt/datasets/react-redux/netdata-2018-01-29-13-36-35.csv
-    INFO:builder:adding file=/opt/datasets/spring/netdata-2018-01-29-15-00-12.csv
-    INFO:builder:adding file=/opt/datasets/vue/netdata-2018-01-29-14-12-44.csv
-    INFO:builder:adding file=/opt/datasets/django/netdata-2018-01-28-23-12-13.csv
-    INFO:builder:adding file=/opt/datasets/django/netdata-2018-01-28-23-06-05.csv
-    INFO:builder:adding file=/opt/datasets/flask-restplus/netdata-2018-01-29-11-30-02.csv
+    2018-01-31 23:38:04,298 - builder - INFO - start - builder
+    2018-01-31 23:38:04,298 - builder - INFO - finding pipeline csvs in dir=/opt/datasets/*/*.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/react-redux/netdata-2018-01-29-13-36-35.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/spring/netdata-2018-01-29-15-00-12.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/vue/netdata-2018-01-29-14-12-44.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/django/netdata-2018-01-28-23-12-13.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/django/netdata-2018-01-28-23-06-05.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/flask-restplus/netdata-2018-01-29-11-30-02.csv
 
 Verify Dataset and Tracking Files
 ---------------------------------
@@ -468,18 +468,16 @@ By default the environment variable ``OUTPUT_DIR`` writes the dataset csv files 
 ::
 
     ls -lrth /tmp/*.csv
-    -rw-rw-r-- 1 jay jay  26M Jan 30 23:24 /tmp/merge_only_attack_scans.csv
-    -rw-rw-r-- 1 jay jay 3.6M Jan 30 23:24 /tmp/only_attack_scans.csv
-
+    -rw-rw-r-- 1 jay jay  26M Jan 31 23:38 /tmp/fulldata_attack_scans.csv
+    -rw-rw-r-- 1 jay jay 143K Jan 31 23:38 /tmp/cleaned_attack_scans.csv
 
 Additionally, there are data governance, metadata and tracking files created as well:
 
 ::
 
     ls -lrth /tmp/*.json
-    -rw-rw-r-- 1 jay jay 1.7K Jan 30 23:24 /tmp/merge_headers.json
-    -rw-rw-r-- 1 jay jay 2.6K Jan 30 23:24 /tmp/output_headers.json
-
+    -rw-rw-r-- 1 jay jay 2.7K Jan 31 23:38 /tmp/fulldata_metadata.json
+    -rw-rw-r-- 1 jay jay 1.8K Jan 31 23:38 /tmp/cleaned_metadata.json
 
 Train Models
 ============
@@ -497,7 +495,7 @@ I am using `Keras`_ to train a deep neural network to predict **attack (1)** and
 
 #.  (Optional) Train with a different dataset
 
-    By default the environment variable ``CSV_FILE=/tmp/merge_only_attack_scans.csv`` can be changed to train models with another prepared dataset.
+    By default the environment variable ``CSV_FILE=/tmp/cleaned_attack_scans.csv`` can be changed to train models with another prepared dataset.
 
     To do so run:
 
@@ -508,19 +506,34 @@ I am using `Keras`_ to train a deep neural network to predict **attack (1)** and
 Train a Keras Deep Neural Network
 =================================
 
-Please note, this can take a few minutes if you are not using a GPU.
+Included in the pip is a ``keras-dnn.py`` script. Below is a sample log from a training run that scored an **83.33%** accuracy predicting **attack** vs **non-attack** records.
+
+Please note, this can take a few minutes if you are not using a GPU. Also the accuracy results will be different depending on how you set up the model.
 
 ::
 
-    keras-dnn.py
+    keras-dnn.py 
     Using TensorFlow backend.
-    2018-01-31 00:21:15,586 - keras-dnn - INFO - start - keras-dnn
-    2018-01-31 00:21:15,586 - keras-dnn - INFO - Loading csv=/tmp/merge_only_attack_scans.csv
-    2018-01-31 00:21:15,902 - keras-dnn - INFO - splitting rows=29900 into X_train=23920 X_test=5980Y_train=23920 Y_test=5980
-    2018-01-31 00:21:15,902 - keras-dnn - INFO - creating sequential model
-    2018-01-31 00:21:15,950 - keras-dnn - INFO - compiling model
-    2018-01-31 00:21:15,979 - keras-dnn - INFO - fitting model - please wait
+    2018-02-01 00:01:30,653 - keras-dnn - INFO - start - keras-dnn
+    2018-02-01 00:01:30,653 - keras-dnn - INFO - Loading csv=/tmp/cleaned_attack_scans.csv
+    2018-02-01 00:01:30,662 - keras-dnn - INFO - Predicting=label_value with features=['eth_type', 'idx', 'ip_ihl', 'ip_len', 'ip_tos', 'ip_version', 'label_value', 'tcp_dport', 'tcp_fields_options.MSS', 'tcp_fields_options.Timestamp', 'tcp_fields_options.WScale', 'tcp_seq', 'tcp_sport'] ignore_features=['label_name', 'ip_src', 'ip_dst', 'eth_src', 'eth_dst', 'src_file', 'raw_id', 'raw_load', 'raw_hex_load', 'raw_hex_field_load', 'pad_load', 'eth_dst', 'eth_src', 'ip_dst', 'ip_src'] records=2217
+    2018-02-01 00:01:30,664 - keras-dnn - INFO - splitting rows=2217 into X_train=1773 X_test=444 Y_train=1773 Y_test=444
+    2018-02-01 00:01:30,664 - keras-dnn - INFO - creating sequential model
+    2018-02-01 00:01:30,705 - keras-dnn - INFO - compiling model
+    2018-02-01 00:01:30,740 - keras-dnn - INFO - fitting model - please wait
+    Train on 1773 samples, validate on 444 samples
+    Epoch 1/50
+    2018-02-01 00:01:30.947551: I tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2
+    1773/1773 [==============================] - 1s 704us/step - loss: 2.5727 - acc: 0.8404 - val_loss: 2.6863 - val_acc: 0.8333
+    Epoch 2/50
+    1773/1773 [==============================] - 1s 626us/step - loss: 2.5727 - acc: 0.8404 - val_loss: 2.6863 - val_acc: 0.8333
 
+    ...
+
+    Epoch 50/50
+    1773/1773 [==============================] - 1s 629us/step - loss: 2.5727 - acc: 0.8404 - val_loss: 2.6863 - val_acc: 0.8333
+    444/444 [==============================] - 0s 17us/step
+    2018-02-01 00:02:29,118 - keras-dnn - INFO - Accuracy: 83.33333333333334
 
 Optional Tweaks
 ---------------

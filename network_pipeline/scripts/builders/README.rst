@@ -44,14 +44,14 @@ This will take a few moments to prepare the csv files.
 ::
 
     prepare-dataset.py
-    INFO:builder:start - builder
-    INFO:builder:finding pipeline csvs in dir=/opt/datasets/*/*.csv
-    INFO:builder:adding file=/opt/datasets/react-redux/netdata-2018-01-29-13-36-35.csv
-    INFO:builder:adding file=/opt/datasets/spring/netdata-2018-01-29-15-00-12.csv
-    INFO:builder:adding file=/opt/datasets/vue/netdata-2018-01-29-14-12-44.csv
-    INFO:builder:adding file=/opt/datasets/django/netdata-2018-01-28-23-12-13.csv
-    INFO:builder:adding file=/opt/datasets/django/netdata-2018-01-28-23-06-05.csv
-    INFO:builder:adding file=/opt/datasets/flask-restplus/netdata-2018-01-29-11-30-02.csv
+    2018-01-31 23:38:04,298 - builder - INFO - start - builder
+    2018-01-31 23:38:04,298 - builder - INFO - finding pipeline csvs in dir=/opt/datasets/*/*.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/react-redux/netdata-2018-01-29-13-36-35.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/spring/netdata-2018-01-29-15-00-12.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/vue/netdata-2018-01-29-14-12-44.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/django/netdata-2018-01-28-23-12-13.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/django/netdata-2018-01-28-23-06-05.csv
+    2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/flask-restplus/netdata-2018-01-29-11-30-02.csv
 
 Verify Dataset and Tracking Files
 =================================
@@ -61,14 +61,13 @@ By default the environment variable ``OUTPUT_DIR`` writes the dataset csv files 
 ::
 
     ls -lrth /tmp/*.csv
-    -rw-rw-r-- 1 jay jay  26M Jan 30 23:24 /tmp/merge_only_attack_scans.csv
-    -rw-rw-r-- 1 jay jay 3.6M Jan 30 23:24 /tmp/only_attack_scans.csv
-
+    -rw-rw-r-- 1 jay jay  26M Jan 31 23:38 /tmp/fulldata_attack_scans.csv
+    -rw-rw-r-- 1 jay jay 143K Jan 31 23:38 /tmp/cleaned_attack_scans.csv
 
 Additionally, there are data governance, metadata and tracking files created as well:
 
 ::
 
     ls -lrth /tmp/*.json
-    -rw-rw-r-- 1 jay jay 1.7K Jan 30 23:24 /tmp/merge_headers.json
-    -rw-rw-r-- 1 jay jay 2.6K Jan 30 23:24 /tmp/output_headers.json
+    -rw-rw-r-- 1 jay jay 2.7K Jan 31 23:38 /tmp/fulldata_metadata.json
+    -rw-rw-r-- 1 jay jay 1.8K Jan 31 23:38 /tmp/cleaned_metadata.json
