@@ -58,12 +58,18 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.7",
+    version="1.0.8",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +
-    "Python 3 framework for building a distributed network analysis "
-    "pipeline. Currently supports recording ethernet and arp (layer 2), " +
+    "Python 3 AI-ready framework for recording network traffic in "
+    "a data pipeline. Once recorded, you can train a " +
+    "deep neural network (DNN) " +
+    "to identify attack and non-attack traffic on your network. " +
+    "Included demo DNN has over 83% accuracy predicting " +
+    "attack vs non-attack records. " +
+    "" +
+    "Currently supports recording ethernet and arp (layer 2), " +
     "ipv4, ipv6 and icmp (layer 3) and also " +
     "tcp, udp frames (layer 4) frames and datagrams. " +
     "Messages are auto-forwarded over to redis or rabbitmq " +
