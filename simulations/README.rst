@@ -33,6 +33,62 @@ Starting ZAP
     
     .. _owasp/zap2docker-live: https://hub.docker.com/r/owasp/zap2docker-live/
 
+Django REST Framework with JWT and Swagger
+==========================================
+
+This also includes some advanced user registration handling with:
+
+https://github.com/alej0varas/django-registration-rest-framework
+
+#.  Install
+
+    ::
+
+        cd simulations/jwt-swagger-django-rest
+
+    ::
+
+        ./install.sh
+    
+#.  Start
+
+    ::
+
+        ./start.sh 
+        Starting Django listening on TCP port 8080
+        http://localhost:8080/admin
+
+        django-configurations version 2.0, using configuration 'Development'
+        Performing system checks...
+
+        System check identified no issues (0 silenced).
+        February 02, 2018 - 09:44:43
+        Django version 2.0, using settings 'project_name.settings'
+        Starting development server at http://0.0.0.0:8080/
+        Quit the server with CONTROL-C.
+
+#.  Browse the Django REST Framework API
+    
+    http://0.0.0.0:8080/
+
+#.  Browse to Swagger
+
+    http://0.0.0.0:8080/swagger/
+
+#.  Login
+
+    By default the super user is: ``root`` with password ``123321``
+
+    http://0.0.0.0:8080/api-auth/login/
+
+#.  Create a new user
+
+    http://localhost:8080/swagger/#!/users/users_create
+
+#.  Get a JWT Token
+
+    http://localhost:8080/swagger/#!/api-token-auth/api_token_auth_create
+
 Flask RESTplus with Swagger
 ===========================
 
@@ -175,7 +231,17 @@ Django 2.0
 
 #.  Confirm Django is running in a browser
 
-    http://localhost:8080/
+    Register a user:
+    
+    http://0.0.0.0:8080/accounts/register/
+    
+    Login as that user:
+
+    http://0.0.0.0:8080/accounts/login/
+    
+    View user profile:
+
+    http://0.0.0.0:8080/accounts/profile/
 
 #.  Run ZAPv2 test
         

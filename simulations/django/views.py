@@ -11,7 +11,14 @@ def home(request):
              .format(request))
     return render(request, 'home.html', {})
 
+
 def index(request):
     log.info(("index - req={}")
              .format(request))
-    return render(request, 'home.html', {})
+    return render(request, 'base.html', {})
+
+
+def profile(request):
+    log.info(("profile - req={}")
+             .format(request))
+    return render(request, 'profile.html', {})

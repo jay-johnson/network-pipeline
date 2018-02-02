@@ -2,10 +2,14 @@
 
 source /tmp/netpipevenv/bin/activate
 
-pip install --upgrade django django-admin django-rest-swagger
+pip install --upgrade django django-admin django-rest-swagger djangorestframework-jwt
 
 git clone https://github.com/jpadilla/django-project-template.git
-git clone https://github.com/macropin/django-registration.git
+git clone https://github.com/szopu/django-rest-registration.git
+
+cd django-rest-registration
+pip install -e .
+cd ..
 
 cd django-project-template
 django-admin.py startproject \
@@ -13,19 +17,20 @@ django-admin.py startproject \
     --name=Procfile \
     --extension=py,md,env \
     project_name >> /dev/null
+
+pipenv install --dev
+
 cp ../example.env .env
 cp ../manage.py .
 cp ../settings.py ./project_name/settings.py
 cp ../wsgi.py ./project_name/wsgi.py
 cp ../urls.py ./project_name/urls.py
-cp ../views.py ./project_name/views.py
+cp ../api_user.py ./project_name/
+cp ../serializer_user.py ./project_name/
 cp ../create-super-user.sh create-super-user.sh
-cp -r ../templates ./project_name/
-cp -r ../django-registration/test_app/templates/* ./project_name/templates/
-cp -r ../django-registration/registration/templates/* ./project_name/templates/
+cp -r ../django-rest-registration/rest_registration/templates ./project_name/
+cp -r ../templates/* ./project_name/
 cp ../Procfile ./Procfile
-
-pipenv install --dev
 
 export DJANGO_SECRET_KEY=supersecret
 

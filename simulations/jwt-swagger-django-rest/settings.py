@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/
 """
 import os
+import datetime
 
 from configurations import Configuration, values
 
@@ -34,7 +35,6 @@ class Common(Configuration):
     INSTALLED_APPS = [
         'django.contrib.sites',
         'django.contrib.admin',
-        'registration',  # should be immediately above 'django.contrib.auth'
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
@@ -42,6 +42,10 @@ class Common(Configuration):
         'whitenoise.runserver_nostatic',
         'django.contrib.staticfiles',
 
+        'rest_framework',
+        'rest_framework_swagger',
+        'rest_registration',
+        'rest_framework_jwt',
         'django_extensions',
         'debug_toolbar',
 
@@ -65,8 +69,6 @@ class Common(Configuration):
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
             'DIRS': [
-                os.path.join(BASE_DIR, 'project_name/templates'),
-                os.path.join(BASE_DIR, 'project_name/templates/registration')
             ],
             'APP_DIRS': True,
             'OPTIONS': {
@@ -127,8 +129,59 @@ class Common(Configuration):
 
     AUTH_USER_MODEL = 'users.User'
 
-    ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
-    REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
+    # https://github.com/szopu/django-rest-registration#configuration
+    REST_REGISTRATION = {
+        'REGISTER_VERIFICATION_ENABLED': False,
+        'RESET_PASSWORD_VERIFICATION_URL': '/reset-password/',
+        'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+        'VERIFICATION_FROM_EMAIL': 'no-reply@example.com',
+    }
+
+    # http://getblimp.github.io/django-rest-framework-jwt/
+    REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': (
+            # 'rest_framework.permissions.IsAuthenticated',
+        ),
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+            'rest_framework.authentication.SessionAuthentication',
+            'rest_framework.authentication.BasicAuthentication',
+        ),
+    }
+
+    # http://getblimp.github.io/django-rest-framework-jwt/
+    """
+
+    One of these is breaking the api-token-auth - 2018-02-02
+
+    JWT_AUTH = {
+        'JWT_ENCODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_encode_handler',
+        'JWT_DECODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_decode_handler',
+        'JWT_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_payload_handler',
+        'JWT_PAYLOAD_GET_USER_ID_HANDLER':
+        'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+        'JWT_RESPONSE_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_response_payload_handler',
+        'JWT_SECRET_KEY': SECRET_KEY,
+        'JWT_GET_USER_SECRET_KEY': None,
+        'JWT_PUBLIC_KEY': None,
+        'JWT_PRIVATE_KEY': None,
+        'JWT_ALGORITHM': 'HS256',
+        'JWT_VERIFY': True,
+        'JWT_VERIFY_EXPIRATION': True,
+        'JWT_LEEWAY': 0,
+        'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+        'JWT_AUDIENCE': None,
+        'JWT_ISSUER': None,
+        'JWT_ALLOW_REFRESH': False,
+        'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+        'JWT_AUTH_HEADER_PREFIX': 'JWT',
+        'JWT_AUTH_COOKIE': None,
+    }
+    """
 
 class Development(Common):
     """
