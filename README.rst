@@ -8,15 +8,17 @@ This is a distributed python 3 framework for automating network traffic capture 
 
 There are many choices to build a machine learning or AI model but for now I am using `Jupyter Hub`_ to build a pre-trained model for defending against `OWASP Dynamic Analysis tools for finding vulnerabilities`_ running in my `owasp-jenkins`_ repository.
 
-- Please refer to the `Simulations directory`_ for capturing simulated attacks using ZAP with Django, Flask, React, Vue, and Spring
-- Please refer to the `Prepare Dataset section`_ for preparing training csvs from captured recordings
-- Please refer to the `Train Models section`_ for training machine learning and AI models from prepared csvs (included logs showing one with an **83.33%** accuracy predicting **attack** vs **non-attack** records)
-- Please refer to the `Datasets repository`_ for captured recordings if you want to see what some of the data will look like
+- `Django REST Framework + JWT + Swagger`_ - run **prepare-dataset** and **train-keras-deep-neural-network** using a multi-tenant Django 2.0+ REST API server supporting JWT and Swagger
+- `Simulations directory`_ - capturing simulated attacks using ZAP with Django, Flask, React, Vue, and Spring
+- `Prepare Dataset section`_ - preparing training csvs from captured recordings
+- `Train Models section`_ - training machine learning and AI models from prepared csvs (included logs showing one with an **83.33%** accuracy predicting **attack** vs **non-attack** records)
+- `Datasets repository`_ - captured recordings if you want to see what some of the data will look like
 
 .. _Jupyter Hub: https://github.com/jay-johnson/celery-connectors#running-jupyterhub-with-postgres-and-ssl
 .. _OWASP Dynamic Analysis tools for finding vulnerabilities: https://www.owasp.org/index.php/Category:Vulnerability_Scanning_Tools
 .. _owasp-jenkins: https://github.com/jay-johnson/owasp-jenkins
 .. _Simulations directory: https://github.com/jay-johnson/network-pipeline/tree/master/simulations
+.. _Django REST Framework + JWT + Swagger: https://github.com/jay-johnson/train-ai-with-django-swagger-jwt#django-rest-framework--jwt--swagger--keras--tensorflow
 .. _Prepare Dataset section: https://github.com/jay-johnson/network-pipeline/#prepare-dataset
 .. _Train Models section: https://github.com/jay-johnson/network-pipeline/#train-models
 .. _Datasets repository: https://github.com/jay-johnson/network-pipeline-datasets
