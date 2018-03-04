@@ -18,6 +18,7 @@ cur_path, cur_script = os.path.split(sys.argv[0])
 os.chdir(os.path.abspath(cur_path))
 
 install_requires = [
+    "antinex-utils",
     "ansible>=1.9",
     "celery-connectors",
     "coverage",
@@ -58,7 +59,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.9",
+    version="1.0.10",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +

@@ -1,19 +1,17 @@
 import os
-import logging
 import json
 import numpy as np
 import pandas as pd
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import setup_logging
+from network_pipeline.log.setup_logging import build_colorized_logger
 from network_pipeline.consts import VALID
 from network_pipeline.consts import INVALID
 from network_pipeline.consts import ERROR
 from sklearn.model_selection import train_test_split
 
 
-setup_logging(config_name="modelers.json")
 name = "training-utils"
-log = logging.getLogger(name)
+log = build_colorized_logger(name=name)
 
 
 def build_training_request(
@@ -155,7 +153,8 @@ def build_training_request(
                 if feature == ign:
                     keep_it = False
             if keep_it:
-                features_to_process.append(feature)
+                if feature != predict_feature:
+                    features_to_process.append(feature)
         # end of for all features to process
 
         last_step = ("Done post-procecessing "
@@ -169,8 +168,16 @@ def build_training_request(
         log.info(last_step)
 
         res["predict_feature"] = predict_feature
-        res["features_to_process"] = features_to_process
-        res["ignore_features"] = ignore_features
+
+        res["ignore_features"] = []
+        for k in ignore_features:
+            if k not in res["ignore_features"]:
+                res["ignore_features"].append(k)
+        res["features_to_process"] = []
+        for k in features_to_process:
+            if k not in res["features_to_process"]:
+                if k != predict_feature:
+                    res["features_to_process"].append(k)
 
         # split the data into training
         (res["X_train"],
