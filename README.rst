@@ -6,7 +6,7 @@ Network Data Analysis Pipeline
 
 This is a distributed python 3 framework for automating network traffic capture and converting it into a csv file. Once you have a csv file you can build, train and tune machine learning models to defend your own infrastructure by actively monitoring the network layer.
 
-It supports auto-publishing captured network traffic to the `AntiNex REST API`_ for using pre-trained Deep Neural Networks to make predictions on if this is an attack record or not using the `AntiNex Core`_. Please refer to the `Making Live Predictions using Pre-trained Neural Networks`_ section for more details.
+It supports auto-publishing captured network traffic to the `AntiNex REST API`_ for using pre-trained Deep Neural Networks to make predictions on if this is an attack record or not using the `AntiNex Core`_. Please refer to the `Making Live Predictions using Pre-trained Neural Networks`_ section for more details. Publishing to the REST API can run inside docker as well.
 
 .. _AntiNex REST API: https://github.com/jay-johnson/train-ai-with-django-swagger-jwt
 .. _Making Live Predictions using Pre-trained Neural Networks: https://github.com/jay-johnson/network-pipeline#making-live-predictions-using-pre-trained-neural-networks
@@ -180,9 +180,9 @@ As an example the repository has a version that works with the `compose.yml`_ do
 
 ::
 
-    source env/antinex-dev.env
+    source envs/antinex-dev.env
 
-When building your own credentials and datasets, you may have special characters in this file. Please use ``set -o allexport; source env/antinex-dev.env; set +o allexport;`` to handle this case.
+When building your own credentials and datasets, you may have special characters in this file. Please use ``set -o allexport; source envs/antinex-dev.env; set +o allexport;`` to handle this case.
 
 Right now the defaults do not special characters so the ``source`` command works just fine:
 
@@ -248,6 +248,14 @@ Start `Packet Processor for Consuming and Publishing Network Messages`_
 -----------------------------------------------------------------------
 
 This will publish network traffic to the `AntiNex REST API from the compose.yml file`_ using JWT for authentication and using the pre-trained neural network from the environment variable: ``ANTINEX_USE_MODEL_NAME`` which defaults to the name: ``Full-Django-AntiNex-Simple-Scaler-DNN``. You can change the model you want to make predictions by changing the name in the file or using ``export ANTINEX_USE_MODEL_NAME=<custom dnn name here>`` before running ``packets-redis.py``.
+
+If you want to start it using docker:
+
+::
+
+    docker-compose -f compose.yml up
+
+Or by using the script in the repo:
 
 ::
 

@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  # Network Pipeline Packet Processor
+  # auto-publishes to the Django Rest Framework 
+  # for making predictions on network traffic
+  # using pre-trained deep neural networks
+  # running in the AntiNex Core
+  pipeline:
+    container_name: "pipeline"
+    hostname: pipeline
+    image: jayjohnson/ai-core:latest
+    network_mode: "host"
+    env_file:
+      - ./env/docker-dev.env
+    volumes:
+      - /tmp:/tmp
+    entrypoint: "/bin/sh -c 'cd /opt/antinex-pipeline && 
+                 . ~/.venvs/venvdrfpipeline/bin/activate &&
+                 /opt/antinex-pipeline/network_pipeline/scripts/packets-redis.py'"
+
