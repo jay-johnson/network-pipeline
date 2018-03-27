@@ -7,9 +7,9 @@ services:
   # for making predictions on network traffic
   # using pre-trained deep neural networks
   # running in the AntiNex Core
-  pipeline:
-    container_name: "pipeline"
-    hostname: pipeline
+  network-pipeline:
+    container_name: "network-pipeline"
+    hostname: network-pipeline
     image: jayjohnson/ai-core:latest
     network_mode: "host"
     env_file:
