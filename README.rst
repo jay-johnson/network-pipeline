@@ -182,7 +182,14 @@ There are a few ways to make live predictions depending on how the pipeline and 
 
     https://github.com/jay-johnson/train-ai-with-django-swagger-jwt/blob/0d280216e3697f0d2cf7456095e37df64be73040/compose.yml#L105
 
-    Use the command:
+    Clone the repo:
+
+    ::
+
+        git clone https://github.com/jay-johnson/train-ai-with-django-swagger-jwt.git /opt/antinex-api
+        cd /opt/antinex-api
+
+    Start the co-located container stack with the ``compose.yml`` file:
 
     ::
 
@@ -202,7 +209,7 @@ There are a few ways to make live predictions depending on how the pipeline and 
 
 
 #.  Running the Packet Processor Manually Using Environment Variables (Development mode)
-    
+
     Make sure to source the correct environment file before running ``packets-redis.py`` (Packet Processor).
 
     As an example the repository has a version that works with the `compose.yml`_ docker deployment:
