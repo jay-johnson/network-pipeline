@@ -6,12 +6,17 @@ Network Data Analysis Pipeline
 
 This is a distributed python 3 framework for automating network traffic capture and converting it into a csv file. Once you have a csv file you can build, train and tune machine learning models to defend your own infrastructure by actively monitoring the network layer.
 
+It supports auto-publishing captured network traffic to the `AntiNex REST API`_ for using pre-trained Deep Neural Networks to make predictions on if this is an attack record or not using the `AntiNex Core`_. Please refer to the `Making Live Predictions using Pre-trained Neural Networks`_ section for more details.
+
+.. _AntiNex REST API: https://github.com/jay-johnson/train-ai-with-django-swagger-jwt
+.. _Making Live Predictions using Pre-trained Neural Networks: https://github.com/jay-johnson/network-pipeline#making-live-predictions-using-pre-trained-neural-networks
+
 There are many choices to build a machine learning or AI model but for now I am using `Jupyter Hub`_ to build a pre-trained model for defending against `OWASP Dynamic Analysis tools for finding vulnerabilities`_ running in my `owasp-jenkins`_ repository.
 
 - `Django REST Framework + JWT + Swagger`_ - run **prepare-dataset** and **train-keras-deep-neural-network** using a multi-tenant Django 2.0+ REST API server supporting JWT and Swagger
 - `Simulations directory`_ - capturing simulated attacks using ZAP with Django, Flask, React, Vue, and Spring
 - `Prepare Dataset section`_ - preparing training csvs from captured recordings
-- `Train Models section`_ - training machine learning and AI models from prepared csvs (included logs showing one with an **83.33%** accuracy predicting **attack** vs **non-attack** records)
+- `Train Models section`_ - training machine learning and AI models from prepared csvs and please check out the `AntiNex Core which has accuracies over 99.8%`_ and a `Jupyter notebook`_
 - `Datasets repository`_ - captured recordings if you want to see what some of the data will look like
 
 .. _Jupyter Hub: https://github.com/jay-johnson/celery-connectors#running-jupyterhub-with-postgres-and-ssl
@@ -22,19 +27,22 @@ There are many choices to build a machine learning or AI model but for now I am 
 .. _Prepare Dataset section: https://github.com/jay-johnson/network-pipeline/#prepare-dataset
 .. _Train Models section: https://github.com/jay-johnson/network-pipeline/#train-models
 .. _Datasets repository: https://github.com/jay-johnson/network-pipeline-datasets
+.. _AntiNex Core which has accuracies over 99.8%: https://github.com/jay-johnson/antinex-core#antinex-core
+.. _Jupyter notebook: https://github.com/jay-johnson/antinex-core/blob/master/docker/notebooks/AntiNex-Protecting-Django.ipynb
 
 Why?
 ====
 
 After digging into how `Internet Chemotherapy`_ worked with a simple `Nerfball approach`_, I wanted to see if I could train machine learning and AI models to defend this type of attack. Since the network is the first line to defend on the edge, on-premise or in the cloud, I wanted to start building the first line of defense and open source it. Also I do not know of any other toolchains to build defensive models using the network layer for free.
 
-This repository automates dataset creation for training models by capturing network traffic on layers 2, 3 and 4 of the `OSI model`_. I hope to have functional, deployable, pre-trained models for django and flask soon... 
-
-Stay tuned and please reach out if you are interested in helping.
+This repository automates dataset creation for training models by capturing network traffic on layers 2, 3 and 4 of the `OSI model`_. Once a dataset has been `Prepared`_ it can be used to `Train a Deep Neural Network`_. Pre-trained Deep Neural Networks can make live predictions on good or bad network traffic with the `AntiNex Core`_.
 
 .. _Internet Chemotherapy: https://0x00sec.org/t/internet-chemotherapy/4664
 .. _Nerfball approach: https://github.com/jay-johnson/nerfball
 .. _OSI model: https://en.wikipedia.org/wiki/OSI_model
+.. _Prepared: https://github.com/jay-johnson/antinex-client#prepare-a-dataset
+.. _Train a Deep Neural Network: https://github.com/jay-johnson/antinex-client#using-pre-trained-neural-networks-to-make-predictions
+.. _AntiNex Core: https://github.com/jay-johnson/antinex-core#django---train-and-predict
 
 How does it work?
 =================
@@ -47,7 +55,7 @@ This framework uses free open source tools to create the following publish-subsc
 #.  Packet processor consumes dictionary from message broker
 #.  Packet processor flattens dictionary
 #.  Packet processor periodically writes csv dataset from collected, flattened dictionaries (configurable for snapshotting csv on n-th number of packets consumed)
-#.  (Coming soon) Flatten packets are forwarded to a model prediction key for models to predict if the network traffic is good or bad
+#.  Flatten packets are published using JWT to a pre-trained Deep Neural Network for making predictions on if the network traffic is good or bad
 
 Envisioned Deployment
 ---------------------
@@ -162,6 +170,93 @@ How do I get started?
         ./network_pipeline/scripts/packets-redis.py
 
     .. _Packet Processor for Consuming Messages: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/packets-redis.py
+
+Making Live Predictions using Pre-trained Neural Networks
+=========================================================
+
+If you want to make predictions using live network traffic, make sure to source the correct environment file before running ``packets-redis.py``.
+
+As an example the repository has a version that works with the `compose.yml`_ docker deployment:
+
+::
+
+    source env/antinex-dev.env
+
+When building your own credentials and datasets, you may have special characters in this file. Please use ``set -o allexport; source env/antinex-dev.env; set +o allexport;`` to handle this case.
+
+Right now the defaults do not special characters so the ``source`` command works just fine:
+
+::
+
+    export ANTINEX_PUBLISH_ENABLED=1
+    export ANTINEX_URL=http://localhost:8080
+    export ANTINEX_USER=root
+    export ANTINEX_EMAIL=123321
+    export ANTINEX_PASSWORD=123321
+    export ANTINEX_PUBLISH_TO_CORE=1
+    export ANTINEX_USE_MODEL_NAME=Full-Django-AntiNex-Simple-Scaler-DNN
+    export ANTINEX_PUBLISH_REQUEST_FILE=/opt/antinex-client/examples/predict-rows-scaler-full-django.json
+    export ANTINEX_FEATURES_TO_PROCESS=idx,arp_hwlen,arp_hwtype,arp_id,arp_op,arp_plen,arp_ptype,dns_default_aa,dns_default_ad,dns_default_an,dns_default_ancount,dns_default_ar,dns_default_arcount,dns_default_cd,dns_default_id,dns_default_length,dns_default_ns,dns_default_nscount,dns_default_opcode,dns_default_qd,dns_default_qdcount,dns_default_qr,dns_default_ra,dns_default_rcode,dns_default_rd,dns_default_tc,dns_default_z,dns_id,eth_id,eth_type,icmp_addr_mask,icmp_code,icmp_gw,icmp_id,icmp_ptr,icmp_seq,icmp_ts_ori,icmp_ts_rx,icmp_ts_tx,icmp_type,icmp_unused,ip_id,ip_ihl,ip_len,ip_tos,ip_version,ipv6_fl,ipv6_hlim,ipv6_nh,ipv6_plen,ipv6_tc,ipv6_version,ipvsix_id,pad_id,tcp_dport,tcp_fields_options.MSS,tcp_fields_options.NOP,tcp_fields_options.SAckOK,tcp_fields_options.Timestamp,tcp_fields_options.WScale,tcp_id,tcp_seq,tcp_sport,udp_dport,udp_id,udp_len,udp_sport
+    export ANTINEX_IGNORE_FEATURES=
+    export ANTINEX_SORT_VALUES=
+    export ANTINEX_ML_TYPE=classification
+    export ANTINEX_PREDICT_FEATURE=label_value
+    export ANTINEX_SEED=42
+    export ANTINEX_TEST_SIZE=0.2
+    export ANTINEX_BATCH_SIZE=32
+    export ANTINEX_EPOCHS=15
+    export ANTINEX_NUM_SPLITS=2
+    export ANTINEX_LOSS=binary_crossentropy
+    export ANTINEX_OPTIMIZER=adam
+    export ANTINEX_METRICS=accuracy
+    export ANTINEX_HISTORIES=val_loss,val_acc,loss,acc
+    export ANTINEX_VERSION=1
+    export ANTINEX_CONVERT_DATA=1
+    export ANTINEX_CONVERT_DATA_TYPE=float
+    export ANTINEX_MISSING_VALUE=-1.0
+    export ANTINEX_INCLUDE_FAILED_CONVERSIONS=false
+    export ANTINEX_CLIENT_VERBOSE=1
+    export ANTINEX_CLIENT_DEBUG=0
+
+Load the Deep Neural Network into the AntiNex Core
+--------------------------------------------------
+
+Note: If you are running without the docker containers, please make sure to clone the client and datasets to disk:
+
+::
+
+    git clone https://github.com/jay-johnson/antinex-client.git /opt/antinex-client
+    git clone https://github.com/jay-johnson/antinex-datasets.git /opt/antinex-datasets
+
+Load the Django Model into the Core. Please note this can take a couple minutes.
+
+::
+
+    ai-train-dnn.py -u root -p 123321 -f deep-neural-networks/full-django.json
+
+    ...
+
+    30196    -1.0 -1.000000  -1.000000  
+    30197    -1.0 -1.000000  -1.000000  
+    30198    -1.0 -1.000000  -1.000000  
+    30199    -1.0 -1.000000  -1.000000  
+
+    [30200 rows x 72 columns]
+
+
+Start `Packet Processor for Consuming and Publishing Network Messages`_
+-----------------------------------------------------------------------
+
+This will publish network traffic to the `AntiNex REST API from the compose.yml file`_ using JWT for authentication and using the pre-trained neural network from the environment variable: ``ANTINEX_USE_MODEL_NAME`` which defaults to the name: ``Full-Django-AntiNex-Simple-Scaler-DNN``. You can change the model you want to make predictions by changing the name in the file or using ``export ANTINEX_USE_MODEL_NAME=<custom dnn name here>`` before running ``packets-redis.py``.
+
+::
+
+    ./network_pipeline/scripts/packets-redis.py
+
+.. _compose.yml: https://github.com/jay-johnson/train-ai-with-django-swagger-jwt/blob/master/compose.yml
+.. _AntiNex REST API from the compose.yml file: https://github.com/jay-johnson/train-ai-with-django-swagger-jwt/blob/f94e31e3416d2dc46180b4da9603209dec9510e2/compose.yml#L70
+.. _Packet Processor for Consuming and Publishing Network Messages: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/packets-redis.py
+
 
 Capture Network Traffic
 =======================
@@ -326,12 +421,12 @@ If you want to just get started, here are some commands and tools to start simul
 Capturing an API Simulation
 ---------------------------
 
-More simulations that can automate + fuzz authenticated REST API service layers like `ZAP`_ are coming soon, but for now a simple POST works too. The included `Flask ZAP Simulation`_ does login using OAuth 2.0 with ZAP for REST API validation, but there is a known issue with the swagger openapi integration within ZAP that limits the functionality (for now):
+Simulations that can automate + fuzz authenticated REST API service layers like `ZAP`_ are available in the `AntiNex datasets repository`_ for training Deep Neural Networks. The included `Flask ZAP Simulation`_ does login using OAuth 2.0 with ZAP for REST API validation, but there is a known issue with the swagger openapi integration within ZAP that limits the functionality (for now):
 
 https://github.com/zaproxy/zaproxy/issues/4072
 
 .. _ZAP: https://github.com/zaproxy/zaproxy
-
+.. _AntiNex datasets repository: https://github.com/jay-johnson/antinex-datasets
 .. _Flask ZAP Simulation: https://github.com/jay-johnson/network-pipeline/blob/master/simulations/zap/tests/flask-zap.py#L26
 
 #.  Start a local server listening on TCP port 80
@@ -484,7 +579,7 @@ Additionally, there are data governance, metadata and tracking files created as 
 Train Models
 ============
 
-I am using `Keras`_ to train a deep neural network to predict **attack (1)** and **non-attack (0)** records using a prepared dataset. Please checkout the `keras-dnn.py`_ module if you are interested in learning more. Please let me know if there are better ways to set up the neural network layers or hyperparameters as well.
+I am using `Keras`_ to train a Deep Neural Network to predict **attack (1)** and **non-attack (0)** records using a prepared dataset. Please checkout the `keras-dnn.py`_ module if you are interested in learning more. Please let me know if there are better ways to set up the neural network layers or hyperparameters as well.
 
 .. _Keras: https://github.com/keras-team/keras
 .. _keras-dnn.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/modelers/keras-dnn.py

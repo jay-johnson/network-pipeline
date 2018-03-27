@@ -9,6 +9,18 @@ from network_pipeline.log.setup_logging import setup_logging
 from network_pipeline.utils import ppj
 from network_pipeline.utils import rnow
 from network_pipeline.build_packet_key import build_packet_key
+from antinex_client.consts import SUCCESS
+from antinex_client.consts import FAILED
+from antinex_client.consts import ERROR
+from antinex_client.consts import LOGIN_FAILED
+from antinex_client.consts import ANTINEX_PUBLISH_ENABLED
+from antinex_client.consts import ANTINEX_PUBLISH_REQUEST_FILE
+from antinex_client.consts import ANTINEX_USE_MODEL_NAME
+from antinex_client.consts import ANTINEX_URL
+from antinex_client.consts import ANTINEX_USER
+from antinex_client.consts import ANTINEX_MISSING_VALUE
+from antinex_client.build_ai_client_from_env import build_ai_client_from_env
+from antinex_client.generate_ai_request import generate_ai_request
 
 
 setup_logging()
@@ -98,6 +110,19 @@ class RecordPacketsToCSV:
         self.all_pad = []
         self.all_flat = []
         self.all_rows = []
+
+        # noqa https://github.com/jay-johnson/antinex-client/blob/5fbcefaaed3d979b3c0829447b61592d5910ef22/antinex_client/build_ai_client_from_env.py#L19
+        self.client = build_ai_client_from_env()
+
+        # the client uses environment variables:
+        # noqa https://github.com/jay-johnson/antinex-client/blob/5fbcefaaed3d979b3c0829447b61592d5910ef22/antinex_client/consts.py#L23
+        # here is an example of what to export:
+        # noqa https://github.com/jay-johnson/antinex-client/blob/master/examples/example-prediction.env
+        self.request_dict = {}
+        if ANTINEX_PUBLISH_ENABLED:
+            with open(ANTINEX_PUBLISH_REQUEST_FILE, "r") as f:
+                self.request_dict = json.loads(f.read())
+        # if publishing is enabled
 
     # end of __init__
 
@@ -751,6 +776,13 @@ class RecordPacketsToCSV:
             log.info("saving to df")
             self.save_df_as_csv()
 
+            if ANTINEX_PUBLISH_ENABLED:
+                log.info(("publishing stream to rest={}")
+                         .format(
+                            ANTINEX_URL))
+                self.publish_predictions_to_core()
+            # end of if publishing to the core
+
         except Exception as e:
             log.error(("Failed state={} with ex={} to "
                        "save={}")
@@ -847,5 +879,74 @@ class RecordPacketsToCSV:
 
         log.info("done handle")
     # end of handle_message
+
+    def publish_predictions_to_core(self):
+        """publish_predictions_to_core"""
+
+        status = FAILED
+        msg = "not started"
+
+        try:
+
+            msg = "generating request"
+            log.info(msg)
+
+            # noqa https://stackoverflow.com/questions/29815129/pandas-dataframe-to-list-of-dictionaries
+            publish_req = generate_ai_request(
+                predict_rows=self.df.fillna(
+                    ANTINEX_MISSING_VALUE).to_dict("records"),
+                req_dict=self.request_dict)
+
+            if publish_req["status"] != SUCCESS:
+                log.error(("failed generate_ai_request with err={}")
+                          .format(
+                            publish_req["error"]))
+                status = ERROR
+
+            else:
+
+                msg = "publishing as user={} url={} model={}".format(
+                    ANTINEX_USER,
+                    ANTINEX_URL,
+                    ANTINEX_USE_MODEL_NAME)
+
+                log.info(msg)
+
+                response = self.client.run_job(
+                    body=publish_req["data"])
+
+                if response["status"] == SUCCESS:
+                    log.info("predictions sent")
+                    status = SUCCESS
+                elif response["status"] == FAILED:
+                    log.error(("job failed with error='{}' with response={}")
+                              .format(
+                                response["error"],
+                                response["data"]))
+                    status = ERROR
+                elif response["status"] == ERROR:
+                    log.error(("job had an error='{}' with response={}")
+                              .format(
+                                response["error"],
+                                response["data"]))
+                    status = ERROR
+                elif response["status"] == LOGIN_FAILED:
+                    log.error(("job reported user was not able to log in "
+                               "with an error='{}' with response={}")
+                              .format(
+                                response["error"],
+                                response["data"]))
+                    status = ERROR
+                # logging for good/bad cases during publish
+            # if generated a good request
+        except Exception as e:
+            log.error(("failed generating request last_step='{}' ex={}")
+                      .format(
+                        msg,
+                        e))
+        # end of try/ex
+
+        return status
+    # end of publish_predictions_to_core
 
 # end of RecordPacketsToCSV

@@ -4,30 +4,29 @@ import json
 
 
 SOURCE = os.getenv(
-            "SOURCE_HOST",
-            "localdev").strip().lstrip()
+    "SOURCE_HOST",
+    "localdev").strip().lstrip()
 FORWARD_BROKER_URL = os.getenv(
-            "FORWARD_BROKER_URL",
-            "redis://localhost:6379/0").strip().lstrip()
+    "FORWARD_BROKER_URL",
+    "redis://localhost:6379/0").strip().lstrip()
 FORWARD_SSL_OPTIONS = json.loads(os.getenv(
-            "FORWARD_SSL_OPTIONS",
-            "{}").strip().lstrip())
+    "FORWARD_SSL_OPTIONS",
+    "{}").strip().lstrip())
 FORWARD_ENDPOINT_TYPE = os.getenv(
-            "FORMAT_ET",
-            "redis").strip().strip()
+    "FORMAT_ET",
+    "redis").strip().strip()
 FORWARD_EXCHANGE = os.getenv(
-            "FORWARD_EXCHANGE",
-            "NEW_PACKETS").strip().lstrip()
+    "FORWARD_EXCHANGE",
+    "NEW_PACKETS").strip().lstrip()
 FORWARD_ROUTING_KEY = os.getenv(
-            "FORWARD_ROUTING_KEY",
-            "NEW_PACKETS").strip().lstrip()
+    "FORWARD_ROUTING_KEY",
+    "NEW_PACKETS").strip().lstrip()
 FORWARD_QUEUE = os.getenv(
-            "FORWARD_QUEUE",
-            "NEW_PACKETS").strip().lstrip()
+    "FORWARD_QUEUE",
+    "NEW_PACKETS").strip().lstrip()
 DEBUG_PACKETS = bool(os.getenv(
-            "DEBUG_PACKETS",
-            "0").strip().lstrip() == "1")
-
+    "DEBUG_PACKETS",
+    "0").strip().lstrip() == "1")
 
 # Prototype engine - for filtering off message contents
 # not just src/dst ip and protocols
