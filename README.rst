@@ -218,6 +218,8 @@ There are a few ways to make live predictions depending on how the pipeline and 
 
         source envs/antinex-dev.env
 
+    .. _compose.yml: https://github.com/jay-johnson/network-pipeline/blob/master/compose.yml#L5
+
     When building your own credentials and datasets, you may have special characters in the env file. Please use ``set -o allexport; source envs/antinex-dev.env; set +o allexport;`` to handle this case.
 
     Right now the defaults do not have special characters, so the ``source`` command works just fine:
