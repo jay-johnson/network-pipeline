@@ -174,49 +174,78 @@ How do I get started?
 Making Live Predictions using Pre-trained Neural Networks
 =========================================================
 
-If you want to make predictions using live network traffic, make sure to source the correct environment file before running ``packets-redis.py``.
+There are a few ways to make live predictions depending on how the pipeline and AntiNex assets are deployed:
 
-As an example the repository has a version that works with the `compose.yml`_ docker deployment:
+#.  Running the Full Django REST API stack using compose.yml (Co-located mode)
 
-::
+    This will start the Packet Processor using the default compose.yml file:
 
-    source envs/antinex-dev.env
+    https://github.com/jay-johnson/train-ai-with-django-swagger-jwt/blob/0d280216e3697f0d2cf7456095e37df64be73040/compose.yml#L105
 
-When building your own credentials and datasets, you may have special characters in this file. Please use ``set -o allexport; source envs/antinex-dev.env; set +o allexport;`` to handle this case.
+    Use the command:
 
-Right now the defaults do not special characters so the ``source`` command works just fine:
+    ::
 
-::
+        docker-compose -f compose.yml up -d
 
-    export ANTINEX_PUBLISH_ENABLED=1
-    export ANTINEX_URL=http://localhost:8080
-    export ANTINEX_USER=root
-    export ANTINEX_EMAIL=123321
-    export ANTINEX_PASSWORD=123321
-    export ANTINEX_PUBLISH_TO_CORE=1
-    export ANTINEX_USE_MODEL_NAME=Full-Django-AntiNex-Simple-Scaler-DNN
-    export ANTINEX_PUBLISH_REQUEST_FILE=/opt/antinex-client/examples/predict-rows-scaler-full-django.json
-    export ANTINEX_FEATURES_TO_PROCESS=idx,arp_hwlen,arp_hwtype,arp_id,arp_op,arp_plen,arp_ptype,dns_default_aa,dns_default_ad,dns_default_an,dns_default_ancount,dns_default_ar,dns_default_arcount,dns_default_cd,dns_default_id,dns_default_length,dns_default_ns,dns_default_nscount,dns_default_opcode,dns_default_qd,dns_default_qdcount,dns_default_qr,dns_default_ra,dns_default_rcode,dns_default_rd,dns_default_tc,dns_default_z,dns_id,eth_id,eth_type,icmp_addr_mask,icmp_code,icmp_gw,icmp_id,icmp_ptr,icmp_seq,icmp_ts_ori,icmp_ts_rx,icmp_ts_tx,icmp_type,icmp_unused,ip_id,ip_ihl,ip_len,ip_tos,ip_version,ipv6_fl,ipv6_hlim,ipv6_nh,ipv6_plen,ipv6_tc,ipv6_version,ipvsix_id,pad_id,tcp_dport,tcp_fields_options.MSS,tcp_fields_options.NOP,tcp_fields_options.SAckOK,tcp_fields_options.Timestamp,tcp_fields_options.WScale,tcp_id,tcp_seq,tcp_sport,udp_dport,udp_id,udp_len,udp_sport
-    export ANTINEX_IGNORE_FEATURES=
-    export ANTINEX_SORT_VALUES=
-    export ANTINEX_ML_TYPE=classification
-    export ANTINEX_PREDICT_FEATURE=label_value
-    export ANTINEX_SEED=42
-    export ANTINEX_TEST_SIZE=0.2
-    export ANTINEX_BATCH_SIZE=32
-    export ANTINEX_EPOCHS=15
-    export ANTINEX_NUM_SPLITS=2
-    export ANTINEX_LOSS=binary_crossentropy
-    export ANTINEX_OPTIMIZER=adam
-    export ANTINEX_METRICS=accuracy
-    export ANTINEX_HISTORIES=val_loss,val_acc,loss,acc
-    export ANTINEX_VERSION=1
-    export ANTINEX_CONVERT_DATA=1
-    export ANTINEX_CONVERT_DATA_TYPE=float
-    export ANTINEX_MISSING_VALUE=-1.0
-    export ANTINEX_INCLUDE_FAILED_CONVERSIONS=false
-    export ANTINEX_CLIENT_VERBOSE=1
-    export ANTINEX_CLIENT_DEBUG=0
+#.  Running Only the Network Pipeline compose.yml (Distributed mode)
+
+    This will just start the Network Pipeline container and assumes the REST API is running on another host.
+
+    https://github.com/jay-johnson/network-pipeline/blob/master/compose.yml
+
+    Use the command:
+
+    ::
+
+        docker-compose -f compose.yml up
+
+
+#.  Running the Packet Processor Manually Using Environment Variables (Development mode)
+    
+    Make sure to source the correct environment file before running ``packets-redis.py`` (Packet Processor).
+
+    As an example the repository has a version that works with the `compose.yml`_ docker deployment:
+
+    ::
+
+        source envs/antinex-dev.env
+
+    When building your own credentials and datasets, you may have special characters in the env file. Please use ``set -o allexport; source envs/antinex-dev.env; set +o allexport;`` to handle this case.
+
+    Right now the defaults do not have special characters, so the ``source`` command works just fine:
+
+    ::
+
+        export ANTINEX_PUBLISH_ENABLED=1
+        export ANTINEX_URL=http://localhost:8080
+        export ANTINEX_USER=root
+        export ANTINEX_EMAIL=123321
+        export ANTINEX_PASSWORD=123321
+        export ANTINEX_PUBLISH_TO_CORE=1
+        export ANTINEX_USE_MODEL_NAME=Full-Django-AntiNex-Simple-Scaler-DNN
+        export ANTINEX_PUBLISH_REQUEST_FILE=/opt/antinex-client/examples/predict-rows-scaler-full-django.json
+        export ANTINEX_FEATURES_TO_PROCESS=idx,arp_hwlen,arp_hwtype,arp_id,arp_op,arp_plen,arp_ptype,dns_default_aa,dns_default_ad,dns_default_an,dns_default_ancount,dns_default_ar,dns_default_arcount,dns_default_cd,dns_default_id,dns_default_length,dns_default_ns,dns_default_nscount,dns_default_opcode,dns_default_qd,dns_default_qdcount,dns_default_qr,dns_default_ra,dns_default_rcode,dns_default_rd,dns_default_tc,dns_default_z,dns_id,eth_id,eth_type,icmp_addr_mask,icmp_code,icmp_gw,icmp_id,icmp_ptr,icmp_seq,icmp_ts_ori,icmp_ts_rx,icmp_ts_tx,icmp_type,icmp_unused,ip_id,ip_ihl,ip_len,ip_tos,ip_version,ipv6_fl,ipv6_hlim,ipv6_nh,ipv6_plen,ipv6_tc,ipv6_version,ipvsix_id,pad_id,tcp_dport,tcp_fields_options.MSS,tcp_fields_options.NOP,tcp_fields_options.SAckOK,tcp_fields_options.Timestamp,tcp_fields_options.WScale,tcp_id,tcp_seq,tcp_sport,udp_dport,udp_id,udp_len,udp_sport
+        export ANTINEX_IGNORE_FEATURES=
+        export ANTINEX_SORT_VALUES=
+        export ANTINEX_ML_TYPE=classification
+        export ANTINEX_PREDICT_FEATURE=label_value
+        export ANTINEX_SEED=42
+        export ANTINEX_TEST_SIZE=0.2
+        export ANTINEX_BATCH_SIZE=32
+        export ANTINEX_EPOCHS=15
+        export ANTINEX_NUM_SPLITS=2
+        export ANTINEX_LOSS=binary_crossentropy
+        export ANTINEX_OPTIMIZER=adam
+        export ANTINEX_METRICS=accuracy
+        export ANTINEX_HISTORIES=val_loss,val_acc,loss,acc
+        export ANTINEX_VERSION=1
+        export ANTINEX_CONVERT_DATA=1
+        export ANTINEX_CONVERT_DATA_TYPE=float
+        export ANTINEX_MISSING_VALUE=-1.0
+        export ANTINEX_INCLUDE_FAILED_CONVERSIONS=false
+        export ANTINEX_CLIENT_VERBOSE=1
+        export ANTINEX_CLIENT_DEBUG=0
 
 Load the Deep Neural Network into the AntiNex Core
 --------------------------------------------------
@@ -228,7 +257,11 @@ Note: If you are running without the docker containers, please make sure to clon
     git clone https://github.com/jay-johnson/antinex-client.git /opt/antinex-client
     git clone https://github.com/jay-johnson/antinex-datasets.git /opt/antinex-datasets
 
-Load the Django Model into the Core. Please note this can take a couple minutes.
+
+Load the Django Model into the Core
+-----------------------------------
+
+Please note this can take a couple minutes...
 
 ::
 
@@ -242,29 +275,6 @@ Load the Django Model into the Core. Please note this can take a couple minutes.
     30199    -1.0 -1.000000  -1.000000  
 
     [30200 rows x 72 columns]
-
-
-Start `Packet Processor for Consuming and Publishing Network Messages`_
------------------------------------------------------------------------
-
-This will publish network traffic to the `AntiNex REST API from the compose.yml file`_ using JWT for authentication and using the pre-trained neural network from the environment variable: ``ANTINEX_USE_MODEL_NAME`` which defaults to the name: ``Full-Django-AntiNex-Simple-Scaler-DNN``. You can change the model you want to make predictions by changing the name in the file or using ``export ANTINEX_USE_MODEL_NAME=<custom dnn name here>`` before running ``packets-redis.py``.
-
-If you want to start it using docker:
-
-::
-
-    docker-compose -f compose.yml up
-
-Or by using the script in the repo:
-
-::
-
-    ./network_pipeline/scripts/packets-redis.py
-
-.. _compose.yml: https://github.com/jay-johnson/train-ai-with-django-swagger-jwt/blob/master/compose.yml
-.. _AntiNex REST API from the compose.yml file: https://github.com/jay-johnson/train-ai-with-django-swagger-jwt/blob/f94e31e3416d2dc46180b4da9603209dec9510e2/compose.yml#L70
-.. _Packet Processor for Consuming and Publishing Network Messages: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/packets-redis.py
-
 
 Capture Network Traffic
 =======================
