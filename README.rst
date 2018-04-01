@@ -1,10 +1,13 @@
-Network Data Analysis Pipeline
-==============================
+AntiNex - Network Data Analysis Pipeline
+========================================
+
+This is a distributed python 3 framework for automating network traffic capture and converting it into a csv file. Once you have a csv file you can build, train and tune machine learning models to defend your own infrastructure by actively monitoring the network layer.
 
 .. image:: https://raw.githubusercontent.com/jay-johnson/network-pipeline/master/docker/images/network-pipeline-workflow.png
     :align: center
 
-This is a distributed python 3 framework for automating network traffic capture and converting it into a csv file. Once you have a csv file you can build, train and tune machine learning models to defend your own infrastructure by actively monitoring the network layer.
+.. image:: https://readthedocs.org/projects/antinex-network-pipeline/badge/?version=latest
+    :target: http://antinex-network-pipeline.readthedocs.io/en/latest/?badge=latest
 
 It supports auto-publishing captured network traffic to the `AntiNex REST API`_ for using pre-trained Deep Neural Networks to make predictions on if this is an attack record or not using the `AntiNex Core`_. Please refer to the `Making Live Predictions using Pre-trained Neural Networks`_ section for more details. Publishing to the REST API can run inside docker as well.
 
