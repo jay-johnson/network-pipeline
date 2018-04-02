@@ -247,8 +247,16 @@ def publish_processed_network_packets(
 # end of publish_processed_network_packets
 
 
-def run_main(need_response=False,
-             callback=None):
+def run_main(
+        need_response=False,
+        callback=None):
+    """run_main
+
+    start the packet consumers and the packet processors
+
+    :param need_response: should send response back to publisher
+    :param callback: handler method
+    """
 
     stop_file = ev("STOP_FILE",
                    "/opt/stop_recording")
@@ -337,6 +345,7 @@ def run_main(need_response=False,
 
 
 if __name__ == "__main__":
-    run_main(need_response=False,
-             callback=publish_processed_network_packets)
+    run_main(
+        need_response=False,
+        callback=publish_processed_network_packets)
     log.info("ending")

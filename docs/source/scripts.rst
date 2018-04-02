@@ -8,51 +8,60 @@ Here are the AntiNex Network Pipeline Capture Agents. These scripts allow for ca
 
 .. warning:: These tools will capture network traffic. Please be careful where you deploy them.
 
-.. automodule:: network_pipeline.scripts.capture-arp
-   :members: dev,default_filter,custom_filter,scapy
+.. automodule:: network_pipeline.scripts.capture_arp
+   :members: capture_arp_packets
 
-.. automodule:: network_pipeline.scripts.capture-icmp
-   :members: dev,default_filter,custom_filter,scapy
+.. automodule:: network_pipeline.scripts.capture_icmp
+   :members: capture_icmp_packets
 
-.. automodule:: network_pipeline.scripts.capture-tcp
-   :members: dev,default_filter,custom_filter,scapy
+.. automodule:: network_pipeline.scripts.capture_tcp
+   :members: capture_tcp_packets
 
-.. automodule:: network_pipeline.scripts.capture-udp
-   :members: dev,default_filter,custom_filter,scapy
+.. automodule:: network_pipeline.scripts.capture_udp
+   :members: capture_udp_packets
 
 Publishers
 ----------
 
 These tools are designed to show how to save captured packet dictionaries to CSVs and how to publish them for live predictions using a pre-trained Deep Neural Network.
 
-.. automodule:: network_pipeline.scripts.packets-rabbitmq
-   :members: agg,recv_msg,FORWARD_BROKER_URL,FORWARD_SSL_OPTIONS,FORWARD_QUEUE,sub,queue,seconds
+.. automodule:: network_pipeline.scripts.packets_rabbitmq
+   :members: recv_msg,consume_network_packet_messages_from_rabbitmq
 
-.. automodule:: network_pipeline.scripts.packets-redis
-   :members: agg,recv_msg,FORWARD_BROKER_URL,FORWARD_SSL_OPTIONS,FORWARD_QUEUE,sub,queue,seconds
+.. automodule:: network_pipeline.scripts.packets_redis
+   :members: recv_msg,consume_network_packet_messages_from_redis
 
 Test Tools
 ----------
 
-These will send mock traffic data to the targetd network device.
+These will send mock traffic data to the targeted network device.
 
-.. automodule:: network_pipeline.scripts.arp-send-msg
-   :members: def,network_details,dst_ip,dst_msc,answered,unanswered
+.. automodule:: network_pipeline.scripts.base_capture
+   :members: example_capture
 
-.. automodule:: network_pipeline.scripts.icmp-send-msg
-   :members: main,checksum,do_one,send_one_ping,receive_one_ping,dump_stats,signal_handler,verbose_ping,quiet_ping
+.. automodule:: network_pipeline.scripts.arp_send_msg
+   :members: send_arp_msg
 
-.. automodule:: network_pipeline.scripts.tcp-send-large-msg
-   :members: client,msg
+.. automodule:: network_pipeline.scripts.tcp_send_large_msg
+   :members: send_tcp_large_message
 
-.. automodule:: network_pipeline.scripts.tcp-send-msg
-   :members: client,msg
+.. automodule:: network_pipeline.scripts.tcp_send_msg
+   :members: send_tcp_message
 
-.. automodule:: network_pipeline.scripts.udp-send-msg
-   :members: client,msg
+.. automodule:: network_pipeline.scripts.udp_send_msg
+   :members: send_udp_message
 
-.. automodule:: network_pipeline.scripts.listen-tcp-port
-   :members: client,s
+.. automodule:: network_pipeline.scripts.listen_tcp_port
+   :members: listen_on_tcp_port
 
-.. automodule:: network_pipeline.scripts.listen-udp-port
-   :members: client,s
+.. automodule:: network_pipeline.scripts.listen_udp_port
+   :members: listen_on_udp_port
+
+.. automodule:: network_pipeline.scripts.builders.prepare_dataset
+   :members: find_all_headers,build_csv,find_all_pipeline_csvs,prepare_new_dataset
+
+.. automodule:: network_pipeline.scripts.modelers.keras_dnn
+   :members: build_new_deep_neural_network_from_env_variables
+
+.. automodule:: network_pipeline.scripts.tools.arp_send_msg
+   :members: Ethernet,Arp

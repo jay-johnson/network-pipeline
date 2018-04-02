@@ -59,7 +59,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.12",
+    version="1.0.13",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +
@@ -109,6 +109,9 @@ setup(
     packages=[
         "network_pipeline",
         "network_pipeline.scripts",
+        "network_pipeline.scripts.builders",
+        "network_pipeline.scripts.modelers",
+        "network_pipeline.scripts.tools",
         "network_pipeline.log"
     ],
     package_data={},
@@ -117,21 +120,21 @@ setup(
     tests_require=[
     ],
     scripts=[
-        "network_pipeline/scripts/arp-send-msg.py",
-        "network_pipeline/scripts/capture-arp.py",
-        "network_pipeline/scripts/capture-icmp.py",
-        "network_pipeline/scripts/capture-tcp.py",
-        "network_pipeline/scripts/capture-udp.py",
-        "network_pipeline/scripts/icmp-send-msg.py",
-        "network_pipeline/scripts/listen-udp-port.py",
-        "network_pipeline/scripts/listen-tcp-port.py",
-        "network_pipeline/scripts/network-agent.py",
-        "network_pipeline/scripts/tcp-send-msg.py",
-        "network_pipeline/scripts/udp-send-msg.py",
-        "network_pipeline/scripts/packets-redis.py",
-        "network_pipeline/scripts/packets-rabbitmq.py",
-        "network_pipeline/scripts/builders/prepare-dataset.py",
-        "network_pipeline/scripts/modelers/keras-dnn.py",
+        "network_pipeline/scripts/arp_send_msg.py",
+        "network_pipeline/scripts/capture_arp.py",
+        "network_pipeline/scripts/capture_icmp.py",
+        "network_pipeline/scripts/capture_tcp.py",
+        "network_pipeline/scripts/capture_udp.py",
+        "network_pipeline/scripts/icmp_send_msg.py",
+        "network_pipeline/scripts/listen_udp_port.py",
+        "network_pipeline/scripts/listen_tcp_port.py",
+        "network_pipeline/scripts/network_agent.py",
+        "network_pipeline/scripts/tcp_send_msg.py",
+        "network_pipeline/scripts/udp_send_msg.py",
+        "network_pipeline/scripts/packets_redis.py",
+        "network_pipeline/scripts/packets_rabbitmq.py",
+        "network_pipeline/scripts/builders/prepare_dataset.py",
+        "network_pipeline/scripts/modelers/keras_dnn.py",
         "network_pipeline/scripts/start-container.sh"
     ],
     use_2to3=True,

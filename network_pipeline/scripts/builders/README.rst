@@ -43,7 +43,7 @@ This will take a few moments to prepare the csv files.
 
 ::
 
-    prepare-dataset.py
+    prepare_dataset.py
     2018-01-31 23:38:04,298 - builder - INFO - start - builder
     2018-01-31 23:38:04,298 - builder - INFO - finding pipeline csvs in dir=/opt/datasets/*/*.csv
     2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/react-redux/netdata-2018-01-29-13-36-35.csv

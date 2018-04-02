@@ -15,13 +15,11 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
-
 # https://stackoverflow.com/questions/15587125/get-docstring-from-script-by-sphinx
-sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0, os.path.abspath('../../'))
 sys.path.insert(0, os.path.abspath('../../network_pipeline/scripts'))
-sys.path.insert(0, os.path.abspath('../network_pipeline/scripts'))
-sys.path.insert(0, os.path.abspath('./network_pipeline/scripts'))
+sys.path.insert(0, os.path.abspath('../../network_pipeline/scripts/builders'))
+sys.path.insert(0, os.path.abspath('../../network_pipeline/scripts/modelers'))
+sys.path.insert(0, os.path.abspath('../../network_pipeline/scripts/tools'))
 
 
 # -- Project information -----------------------------------------------------

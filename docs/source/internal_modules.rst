@@ -38,5 +38,5 @@ Network Pipeline Internal Modules
 .. automodule:: network_pipeline.simulated_work_task
    :members: SimulatedWorkTask
 
-.. automodule:: network_pipeline.worker_to_process_packets.py
+.. automodule:: network_pipeline.worker_to_process_packets
    :members: WorkerToProcessPackets

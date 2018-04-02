@@ -38,8 +38,8 @@ def build_training_request(
         preproc_rules=None):
     """build_training_request
 
-    :param csv_file: csv file built with prepare-dataset.py
-    :param meta_file: metadata file built with prepare-dataset.py
+    :param csv_file: csv file built with prepare_dataset.py
+    :param meta_file: metadata file built with prepare_dataset.py
     :param predict_feature: feature (column) to predict
     :param ignore_features: features to remove from the csv
                             before the split of test + train

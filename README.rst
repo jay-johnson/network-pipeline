@@ -74,15 +74,15 @@ The pipeline is a capture forwarding system focused on redundancy and scalabilit
 
 Here are the included, standalone capture tools (all of which require root privileges to work):
 
-#.  `capture-arp.py`_
-#.  `capture-icmp.py`_
-#.  `capture-tcp.py`_
-#.  `capture-udp.py`_
+#.  `capture_arp.py`_
+#.  `capture_icmp.py`_
+#.  `capture_tcp.py`_
+#.  `capture_udp.py`_
 
-.. _capture-arp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture-arp.py
-.. _capture-icmp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture-icmp.py
-.. _capture-tcp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture-tcp.py
-.. _capture-udp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture-udp.py
+.. _capture_arp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_arp.py
+.. _capture_icmp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_icmp.py
+.. _capture_tcp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_tcp.py
+.. _capture_udp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_udp.py
 
 AntiNex Stack Status
 --------------------
@@ -96,43 +96,43 @@ AntiNex Network Pipeline is part of the AntiNex stack:
      - Build
      - Docs Link
      - Docs Build
-   * - `REST API <https://github.com/jay-johnson/train-ai-with-django-swagger-jwt>`_
+   * - `REST API <https://github.com/jay-johnson/train-ai-with-django-swagger-jwt>`__
      - .. image:: https://travis-ci.org/jay-johnson/train-ai-with-django-swagger-jwt.svg?branch=master
            :alt: Travis Tests
            :target: https://travis-ci.org/jay-johnson/train-ai-with-django-swagger-jwt.svg
-     - `Docs <http://antinex.readthedocs.io/en/latest/>`_
+     - `Docs <http://antinex.readthedocs.io/en/latest/>`__
      - .. image:: https://readthedocs.org/projects/antinex/badge/?version=latest
            :alt: Read the Docs REST API Tests
            :target: https://readthedocs.org/projects/antinex/badge/?version=latest
-   * - `Core Worker <https://github.com/jay-johnson/antinex-core>`_
+   * - `Core Worker <https://github.com/jay-johnson/antinex-core>`__
      - .. image:: https://travis-ci.org/jay-johnson/antinex-core.svg?branch=master
            :alt: Travis AntiNex Core Tests
            :target: https://travis-ci.org/jay-johnson/antinex-core.svg
-     - `Docs <http://antinex-core-worker.readthedocs.io/en/latest/>`_
+     - `Docs <http://antinex-core-worker.readthedocs.io/en/latest/>`__
      - .. image:: https://readthedocs.org/projects/antinex-core-worker/badge/?version=latest
            :alt: Read the Docs AntiNex Core Tests
            :target: http://antinex-core-worker.readthedocs.io/en/latest/?badge=latest
-   * - `Network Pipeline <https://github.com/jay-johnson/network-pipeline>`_
+   * - `Network Pipeline <https://github.com/jay-johnson/network-pipeline>`__
      - .. image:: https://travis-ci.org/jay-johnson/network-pipeline.svg?branch=master
            :alt: Travis AntiNex Network Pipeline Tests
            :target: https://travis-ci.org/jay-johnson/network-pipeline.svg
-     - `Docs <http://antinex-network-pipeline.readthedocs.io/en/latest/>`_
+     - `Docs <http://antinex-network-pipeline.readthedocs.io/en/latest/>`__
      - .. image:: https://readthedocs.org/projects/antinex-network-pipeline/badge/?version=latest
            :alt: Read the Docs AntiNex Network Pipeline Tests
            :target: https://readthedocs.org/projects/antinex-network-pipeline/badge/?version=latest
-   * - `AI Utils <https://github.com/jay-johnson/antinex-utils>`_
+   * - `AI Utils <https://github.com/jay-johnson/antinex-utils>`__
      - .. image:: https://travis-ci.org/jay-johnson/antinex-utils.svg?branch=master
            :alt: Travis AntiNex AI Utils Tests
            :target: https://travis-ci.org/jay-johnson/antinex-utils.svg
-     - `Docs <http://antinex-ai-utilities.readthedocs.io/en/latest/>`_
+     - `Docs <http://antinex-ai-utilities.readthedocs.io/en/latest/>`__
      - .. image:: https://readthedocs.org/projects/antinex-ai-utilities/badge/?version=latest
            :alt: Read the Docs AntiNex AI Utils Tests
            :target: http://antinex-ai-utilities.readthedocs.io/en/latest/?badge=latest
-   * - `Client <https://github.com/jay-johnson/antinex-client>`_
+   * - `Client <https://github.com/jay-johnson/antinex-client>`__
      - .. image:: https://travis-ci.org/jay-johnson/antinex-client.svg?branch=master
            :alt: Travis AntiNex Client Tests
            :target: https://travis-ci.org/jay-johnson/antinex-client.svg
-     - `Docs <http://antinex-client.readthedocs.io/en/latest/>`_
+     - `Docs <http://antinex-client.readthedocs.io/en/latest/>`__
      - .. image:: https://readthedocs.org/projects/antinex-client/badge/?version=latest
            :alt: Read the Docs AntiNex Client Tests
            :target: https://readthedocs.org/projects/antinex-client/badge/?version=latest
@@ -223,9 +223,9 @@ How do I get started?
 
     ::
     
-        ./network_pipeline/scripts/packets-redis.py
+        ./network_pipeline/scripts/packets_redis.py
 
-    .. _Packet Processor for Consuming Messages: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/packets-redis.py
+    .. _Packet Processor for Consuming Messages: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/packets_redis.py
 
 Making Live Predictions using Pre-trained Neural Networks
 =========================================================
@@ -266,7 +266,7 @@ There are a few ways to make live predictions depending on how the pipeline and 
 
 #.  Running the Packet Processor Manually Using Environment Variables (Development mode)
 
-    Make sure to source the correct environment file before running ``packets-redis.py`` (Packet Processor).
+    Make sure to source the correct environment file before running ``packets_redis.py`` (Packet Processor).
 
     As an example the repository has a version that works with the `compose.yml`_ docker deployment:
 
@@ -330,7 +330,7 @@ Please note this can take a couple minutes...
 
 ::
 
-    ai-train-dnn.py -u root -p 123321 -f deep-neural-networks/full-django.json
+    ai_train_dnn.py -u root -p 123321 -f deep-neural-networks/full-django.json
 
     ...
 
@@ -370,7 +370,7 @@ Scapy_ currently provides the traffic capture tooling, but the code already has 
 
     ::
     
-        ./network_pipeline/scripts/capture-tcp.py
+        ./network_pipeline/scripts/capture_tcp.py
 
 #.  Capture UDP Data
 
@@ -384,7 +384,7 @@ Scapy_ currently provides the traffic capture tooling, but the code already has 
 
     ::
     
-        source /tmp/netpipevenv/bin/activate && ./network_pipeline/scripts/capture-udp.py
+        source /tmp/netpipevenv/bin/activate && ./network_pipeline/scripts/capture_udp.py
 
 #.  Capture ARP Data
 
@@ -398,7 +398,7 @@ Scapy_ currently provides the traffic capture tooling, but the code already has 
 
     ::
         
-        source /tmp/netpipevenv/bin/activate && ./network_pipeline/scripts/capture-arp.py
+        source /tmp/netpipevenv/bin/activate && ./network_pipeline/scripts/capture_arp.py
         
 #.  Capture ICMP Data
 
@@ -412,7 +412,7 @@ Scapy_ currently provides the traffic capture tooling, but the code already has 
     
     ::
         
-        source /tmp/netpipevenv/bin/activate && ./network_pipeline/scripts/capture-icmp.py
+        source /tmp/netpipevenv/bin/activate && ./network_pipeline/scripts/capture_icmp.py
 
 Simulating Network Traffic
 ==========================
@@ -452,7 +452,7 @@ If you want to just get started, here are some commands and tools to start simul
 
     ::
 
-        ./network_pipeline/scripts/tcp-send-msg.py
+        ./network_pipeline/scripts/tcp_send_msg.py
 
 #.  Send a UDP message
 
@@ -460,14 +460,14 @@ If you want to just get started, here are some commands and tools to start simul
     
     ::
 
-        sudo ./network_pipeline/scripts/listen-udp-port.py
+        sudo ./network_pipeline/scripts/listen_udp_port.py
         2018-01-27T17:39:47.725377 - Starting UDP Server address=127.0.0.1:17000 backlog=5 size=1024 sleep=0.5 shutdown=/tmp/udp-shutdown-listen-server-127.0.0.1-17000
 
     Send the UDP message
 
     ::
 
-        ./network_pipeline/scripts/udp-send-msg.py
+        ./network_pipeline/scripts/udp_send_msg.py
         sending UDP: address=('0.0.0.0', 17000) msg=testing UDP msg time=2018-01-27 17:40:04 - cc9cdc1a-a900-48c5-acc9-b8ff5919087b
 
     (Optional) Verify the UDP server received the message
@@ -516,7 +516,7 @@ https://github.com/zaproxy/zaproxy/issues/4072
 
     ::
 
-        sudo ./network_pipeline/scripts/listen-tcp-port.py 
+        sudo ./network_pipeline/scripts/listen_tcp_port.py 
         2018-01-27T23:59:22.344687 - Starting Server address=127.0.0.1:80 backlog=5 size=1024 sleep=0.5 shutdown=/tmp/shutdown-listen-server-127.0.0.1-80
 
 #.  Run a POST curl
@@ -571,7 +571,7 @@ Larger Traffic Testing
 
     ::
 
-        ./network_pipeline/scripts/tcp-send-large-msg.py
+        ./network_pipeline/scripts/tcp_send_large_msg.py
 
 Inspecting the CSV Datasets
 ===========================
@@ -630,7 +630,7 @@ This will take a few moments to prepare the csv files.
 
 ::
 
-    prepare-dataset.py
+    prepare_dataset.py
     2018-01-31 23:38:04,298 - builder - INFO - start - builder
     2018-01-31 23:38:04,298 - builder - INFO - finding pipeline csvs in dir=/opt/datasets/*/*.csv
     2018-01-31 23:38:04,299 - builder - INFO - adding file=/opt/datasets/react-redux/netdata-2018-01-29-13-36-35.csv
@@ -662,10 +662,10 @@ Additionally, there are data governance, metadata and tracking files created as 
 Train Models
 ============
 
-I am using `Keras`_ to train a Deep Neural Network to predict **attack (1)** and **non-attack (0)** records using a prepared dataset. Please checkout the `keras-dnn.py`_ module if you are interested in learning more. Please let me know if there are better ways to set up the neural network layers or hyperparameters as well.
+I am using `Keras`_ to train a Deep Neural Network to predict **attack (1)** and **non-attack (0)** records using a prepared dataset. Please checkout the `keras_dnn.py`_ module if you are interested in learning more. Please let me know if there are better ways to set up the neural network layers or hyperparameters as well.
 
 .. _Keras: https://github.com/keras-team/keras
-.. _keras-dnn.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/modelers/keras-dnn.py
+.. _keras_dnn.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/modelers/keras_dnn.py
 
 #.  Source the virtual environment
 
@@ -686,13 +686,13 @@ I am using `Keras`_ to train a Deep Neural Network to predict **attack (1)** and
 Train a Keras Deep Neural Network
 =================================
 
-Included in the pip is a ``keras-dnn.py`` script. Below is a sample log from a training run that scored an **83.33%** accuracy predicting **attack** vs **non-attack** records.
+Included in the pip is a ``keras_dnn.py`` script. Below is a sample log from a training run that scored an **83.33%** accuracy predicting **attack** vs **non-attack** records.
 
 Please note, this can take a few minutes if you are not using a GPU. Also the accuracy results will be different depending on how you set up the model.
 
 ::
 
-    keras-dnn.py 
+    keras_dnn.py 
     Using TensorFlow backend.
     2018-02-01 00:01:30,653 - keras-dnn - INFO - start - keras-dnn
     2018-02-01 00:01:30,653 - keras-dnn - INFO - Loading csv=/tmp/cleaned_attack_scans.csv

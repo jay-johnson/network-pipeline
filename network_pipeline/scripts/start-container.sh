@@ -24,16 +24,16 @@ if [[ "${CAP_COMMAND}" != "" ]]; then
 else
     if [[ "${CAP_MODE}" == "ARP" ]]; then
         echo "loading ARP capture tool"
-        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture-arp.py
+        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture_arp.py
     elif [[ "${CAP_MODE}" == "ICMP" ]]; then
         echo "loading ICMP capture tool"
-        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture-icmp.py
+        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture_icmp.py
     elif [[ "${CAP_MODE}" == "TCP" ]]; then
         echo "loading TCP capture tool"
-        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture-tcp.py
+        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture_tcp.py
     elif [[ "${CAP_MODE}" == "UDP" ]]; then
         echo "loading UDP capture tool"
-        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture-udp.py
+        cap_command=/opt/networkpipeline/network_pipeline/scripts/capture_udp.py
     fi
 fi
 

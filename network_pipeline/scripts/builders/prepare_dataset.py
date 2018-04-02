@@ -19,8 +19,15 @@ log = logging.getLogger(name)
 log.info("start - {}".format(name))
 
 
-def find_all_headers(pipeline_files=[],
-                     label_rules=None):
+def find_all_headers(
+        pipeline_files=[],
+        label_rules=None):
+    """find_all_headers
+
+    :param pipeline_files: files to process
+    :param label_rules: labeling rules
+    """
+
     log.info("find_all_headers - START")
 
     headers = ["src_file"]
@@ -58,6 +65,15 @@ def build_csv(
         post_proc_rules=None,
         label_rules=None,
         metadata_filename="metadata.json"):
+    """build_csv
+
+    :param pipeline_files: files to process
+    :param fulldata_file: output all columns to this csv file
+    :param clean_file: output all numeric-ready columns to this csv file
+    :param post_proc_rules: rules after building the DataFrame
+    :param label_rules: labeling rules
+    :param metadata_filename: metadata
+    """
 
     save_node = {
         "status": INVALID,
@@ -411,6 +427,10 @@ def build_csv(
 
 def find_all_pipeline_csvs(
         csv_glob_path="/opt/datasets/**/*.csv"):
+    """find_all_pipeline_csvs
+
+    :param csv_glob_path: path to csvs
+    """
 
     log.info("finding pipeline csvs in dir={}".format(csv_glob_path))
 
@@ -430,89 +450,96 @@ def find_all_pipeline_csvs(
 # end of find_all_pipeline_csvs
 
 
-clean_dir = ev(
-                "OUTPUT_DIR",
-                "/tmp")
-clean_file = ev(
-                "CLEANED_FILE",
-                "{}/cleaned_attack_scans.csv".format(
-                    clean_dir))
-fulldata_file = ev(
-                "FULLDATA_FILE",
-                "{}/fulldata_attack_scans.csv".format(
-                    clean_dir))
-dataset_dir = ev(
-                "DS_DIR",
-                "/opt/datasets")
-csv_glob_path = ev(
-                "DS_GLOB_PATH",
-                "{}/*/*.csv".format(
-                    dataset_dir))
+def prepare_new_dataset():
+    """prepare_new_dataset"""
+    clean_dir = ev(
+        "OUTPUT_DIR",
+        "/tmp")
+    clean_file = ev(
+        "CLEANED_FILE",
+        "{}/cleaned_attack_scans.csv".format(
+            clean_dir))
+    fulldata_file = ev(
+        "FULLDATA_FILE",
+        "{}/fulldata_attack_scans.csv".format(
+            clean_dir))
+    dataset_dir = ev(
+        "DS_DIR",
+        "/opt/datasets")
+    csv_glob_path = ev(
+        "DS_GLOB_PATH",
+        "{}/*/*.csv".format(
+            dataset_dir))
 
-pipeline_files = find_all_pipeline_csvs(
-                    csv_glob_path=csv_glob_path)
+    pipeline_files = find_all_pipeline_csvs(
+        csv_glob_path=csv_glob_path)
 
-post_proc_rules = {
-    "drop_columns": [
-        "src_file",
-        "raw_id",
-        "raw_load",
-        "raw_hex_load",
-        "raw_hex_field_load",
-        "pad_load",
-        "eth_dst",  # need to make this an int
-        "eth_src",  # need to make this an int
-        "ip_dst",   # need to make this an int
-        "ip_src"    # need to make this an int
-    ],
-    "predict_feature": "label_name"
-}
+    post_proc_rules = {
+        "drop_columns": [
+            "src_file",
+            "raw_id",
+            "raw_load",
+            "raw_hex_load",
+            "raw_hex_field_load",
+            "pad_load",
+            "eth_dst",  # need to make this an int
+            "eth_src",  # need to make this an int
+            "ip_dst",   # need to make this an int
+            "ip_src"    # need to make this an int
+        ],
+        "predict_feature": "label_name"
+    }
 
-label_rules = {
-    "set_if_above": 85,
-    "labels": ["not_attack", "attack"],
-    "label_values": [0, 1]
-}
+    label_rules = {
+        "set_if_above": 85,
+        "labels": ["not_attack", "attack"],
+        "label_values": [0, 1]
+    }
 
-log.info("building csv")
+    log.info("building csv")
 
-save_node = build_csv(
-    pipeline_files=pipeline_files,
-    fulldata_file=fulldata_file,
-    clean_file=clean_file,
-    post_proc_rules=post_proc_rules,
-    label_rules=label_rules)
+    save_node = build_csv(
+        pipeline_files=pipeline_files,
+        fulldata_file=fulldata_file,
+        clean_file=clean_file,
+        post_proc_rules=post_proc_rules,
+        label_rules=label_rules)
 
-if save_node["status"] == VALID:
-    log.info("Successfully process datasets:")
+    if save_node["status"] == VALID:
+        log.info("Successfully process datasets:")
 
-    if ev("SHOW_SUMMARY",
-          "1") == "1":
-        log.info(("Full csv: {}")
-                 .format(save_node["fulldata_file"]))
-        log.info(("Full meta: {}")
-                 .format(save_node["fulldata_metadata_file"]))
-        log.info(("Clean csv: {}")
-                 .format(save_node["clean_file"]))
-        log.info(("Clean meta: {}")
-                 .format(save_node["clean_metadata_file"]))
-        log.info("------------------------------------------")
-        log.info(("Predicting Feature: {}")
-                 .format(save_node["feature_to_predict"]))
-        log.info(("Features to Process: {}")
-                 .format(ppj(save_node["features_to_process"])))
-        log.info(("Ignored Features: {}")
-                 .format(ppj(save_node["ignore_features"])))
-        log.info("------------------------------------------")
-    # end of show summary
+        if ev("SHOW_SUMMARY", "1") == "1":
+            log.info(("Full csv: {}")
+                     .format(save_node["fulldata_file"]))
+            log.info(("Full meta: {}")
+                     .format(save_node["fulldata_metadata_file"]))
+            log.info(("Clean csv: {}")
+                     .format(save_node["clean_file"]))
+            log.info(("Clean meta: {}")
+                     .format(save_node["clean_metadata_file"]))
+            log.info("------------------------------------------")
+            log.info(("Predicting Feature: {}")
+                     .format(save_node["feature_to_predict"]))
+            log.info(("Features to Process: {}")
+                     .format(ppj(save_node["features_to_process"])))
+            log.info(("Ignored Features: {}")
+                     .format(ppj(save_node["ignore_features"])))
+            log.info("------------------------------------------")
+        # end of show summary
 
-    log.info("")
-    log.info("done saving csv:")
-    log.info("Full: {}".format(
-        save_node["fulldata_file"]))
-    log.info("Cleaned (no-NaNs in columns): {}".format(
-        save_node["clean_file"]))
-    log.info("")
-else:
-    log.info("Failed to process datasets")
-# end if/else
+        log.info("")
+        log.info("done saving csv:")
+        log.info("Full: {}".format(
+            save_node["fulldata_file"]))
+        log.info("Cleaned (no-NaNs in columns): {}".format(
+            save_node["clean_file"]))
+        log.info("")
+    else:
+        log.info("Failed to process datasets")
+    # end if/else
+
+# end of prepare_new_dataset
+
+
+if __name__ == "__main__":
+    prepare_new_dataset()

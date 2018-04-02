@@ -7,12 +7,12 @@ import netifaces
 from binascii import unhexlify
 
 interface_name = os.getenv(
-                    "ARP_INTERFACE",
-                    "lo").strip().lstrip()
-network_details = netifaces.ifaddresses(interface_name)
+    "ARP_INTERFACE",
+    "lo").strip().lstrip()
+network_details = netifaces.ifaddresses(
+    interface_name)
 ipaddress = network_details[2][0]['addr']
 macaddress = network_details[17][0]['addr']
-print(network_details)
 
 
 class Ethernet(object):

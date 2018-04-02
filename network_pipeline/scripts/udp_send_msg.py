@@ -5,16 +5,27 @@ import socket
 import uuid
 import datetime
 
-host = os.getenv(
-            "UDP_SEND_TO_HOST",
-            "0.0.0.0").strip().lstrip()
-port = int(os.getenv(
-            "UDP_SEND_TO_PORT",
-            "17000").strip().lstrip())
 
-need_response = os.getenv("NEED_RESPONSE", "0") == "1"
+def send_udp_message():
+    """send_udp_message
 
-if __name__ == '__main__':
+    Send a ``UDP`` message to port 80 by default.
+
+    Environment variables:
+
+    ``UDP_SEND_TO_HOST`` - host ip address
+    ``UDP_SEND_TO_PORT`` - send to this UDP port
+
+    """
+    host = os.getenv(
+        "UDP_SEND_TO_HOST",
+        "0.0.0.0").strip().lstrip()
+    port = int(os.getenv(
+        "UDP_SEND_TO_PORT",
+        "17000").strip().lstrip())
+
+    need_response = os.getenv("NEED_RESPONSE", "0") == "1"
+
     msg = os.getenv(
             "MSG",
             "testing UDP msg time={} - {}".format(
@@ -33,4 +44,10 @@ if __name__ == '__main__':
     client.sendto(msg.encode(), server_address)
     if need_response:
         data = client.recv(1024).decode()
+        print(data)
     client.close()
+# end of send_udp_message
+
+
+if __name__ == '__main__':
+    send_udp_message()

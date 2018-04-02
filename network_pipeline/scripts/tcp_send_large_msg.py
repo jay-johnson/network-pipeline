@@ -5,9 +5,16 @@ import socket
 import uuid
 import datetime
 
-need_response = os.getenv("NEED_RESPONSE", "0") == "1"
 
-if __name__ == '__main__':
+def send_tcp_large_message():
+    """send_tcp_large_message
+
+    Send a large ``TCP`` message to port 80 by default.
+
+    """
+
+    need_response = os.getenv("NEED_RESPONSE", "0") == "1"
+
     msg = os.getenv(
             "MSG",
             "testing msg time={} - {}".format(
@@ -29,4 +36,10 @@ if __name__ == '__main__':
     client.sendall(msg.encode())
     if need_response:
         data = client.recv(1024).decode()
+        print(data)
     client.close()
+# end of send_tcp_large_message
+
+
+if __name__ == '__main__':
+    send_tcp_large_message()
