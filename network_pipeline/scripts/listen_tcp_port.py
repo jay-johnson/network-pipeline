@@ -13,9 +13,13 @@ def listen_on_tcp_port():
     Run a simple server for processing messages over ``TCP``.
 
     ``LISTEN_ON_HOST`` - listen on this host ip address
+
     ``LISTEN_ON_PORT`` - listen on this ``TCP`` port
+
     ``LISTEN_SIZE`` - listen on to packets of this size
+
     ``LISTEN_SLEEP`` - sleep this number of seconds per loop
+
     ``LISTEN_SHUTDOWN_HOOK`` - shutdown if file is found on disk
 
     """
