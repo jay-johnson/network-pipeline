@@ -17,6 +17,10 @@ macaddress = network_details[17][0]['addr']
 
 class Ethernet(object):
 
+    """
+    Generic Ethernet Frame class
+    """
+
     def __init__(self):
         self.dst = None
         self.src = None
@@ -24,6 +28,10 @@ class Ethernet(object):
 
 
 class Arp(object):
+
+    """
+    Generic ARP Frame class
+    """
 
     def __init__(self):
         self.htype = None
