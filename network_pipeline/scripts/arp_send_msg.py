@@ -25,8 +25,9 @@ def send_arp_msg():
             network_details[17][0]["addr"])
 
     print(("Sending ARP to mac={} ip={}")
-          .format(dst_mac,
-                dst_ip))
+          .format(
+            dst_mac,
+            dst_ip))
 
     answered, unanswered = scapy.srp(
                             scapy.Ether(
