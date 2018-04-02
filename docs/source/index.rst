@@ -67,6 +67,9 @@ These are the docs for the AntiNex Network Pipeline repository.
 .. toctree::
    :maxdepth: 2
 
+   handle_packets
+   record_packets_to_csv
+
 Indices and tables
 ==================
 
