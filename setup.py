@@ -59,7 +59,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.11",
+    version="1.0.12",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +
@@ -108,6 +108,7 @@ setup(
     url="https://github.com/jay-johnson/network-pipeline",
     packages=[
         "network_pipeline",
+        "network_pipeline.scripts",
         "network_pipeline.log"
     ],
     package_data={},
