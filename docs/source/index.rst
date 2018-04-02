@@ -60,15 +60,21 @@ AntiNex Network Pipeline is part of the AntiNex stack:
            :target: https://readthedocs.org/projects/antinex-client/badge/?version=latest
 
 Table of Contents
------------------
+=================
 
 These are the docs for the AntiNex Network Pipeline repository.
+
+Source Code
+-----------
 
 .. toctree::
    :maxdepth: 2
 
    handle_packets
    record_packets_to_csv
+   internal_modules
+   scripts
+   consts
 
 Indices and tables
 ==================
