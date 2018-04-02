@@ -1,0 +1,14 @@
+language: python
+
+python:
+  - 3.6
+
+before_install:
+  - export PYTHONPATH=$HOME/builds/jay-johnson/network-pipeline
+  - export PIP_USE_MIRRORS=true
+
+install:
+  - pip install -e .
+
+script:
+  - python setup.py test
