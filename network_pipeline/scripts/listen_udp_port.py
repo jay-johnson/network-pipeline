@@ -12,11 +12,11 @@ def listen_on_udp_port():
 
     Run a simple server for processing messages over ``UDP``.
 
-    UDP_LISTEN_ON_HOST
-    UDP_LISTEN_ON_PORT
-    UDP_LISTEN_SIZE
-    UDP_LISTEN_SLEEP
-    UDP_LISTEN_SHUTDOWN_HOOK
+    ``UDP_LISTEN_ON_HOST`` - listen on this host ip address
+    ``UDP_LISTEN_ON_PORT`` - listen on this ``UDP`` port
+    ``UDP_LISTEN_SIZE`` - listen on to packets of this size
+    ``UDP_LISTEN_SLEEP`` - sleep this number of seconds per loop
+    ``UDP_LISTEN_SHUTDOWN_HOOK`` - shutdown if file is found on disk
 
     """
 

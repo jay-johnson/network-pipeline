@@ -1,5 +1,5 @@
-Source Code - Handle Packets from a Network Interface
-=====================================================
+Handle Packets from a Network Interface
+=======================================
 
 This is the default handler for processing network packets received from the network interface with ``eth0`` or ``eth1``. In production, this is the starting point for making live predictions with the AntiNex REST API.
 
