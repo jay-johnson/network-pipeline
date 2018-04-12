@@ -76,12 +76,16 @@ Here are the included, standalone capture tools (all of which require root privi
 
 #.  `capture_arp.py`_
 #.  `capture_icmp.py`_
+#.  `capture_ssh.py`_
 #.  `capture_tcp.py`_
+#.  `capture_telnet.py`_
 #.  `capture_udp.py`_
 
 .. _capture_arp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_arp.py
 .. _capture_icmp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_icmp.py
+.. _capture_ssh.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_ssh.py
 .. _capture_tcp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_tcp.py
+.. _capture_telnet.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_telnet.py
 .. _capture_udp.py: https://github.com/jay-johnson/network-pipeline/blob/master/network_pipeline/scripts/capture_udp.py
 
 AntiNex Stack Status
@@ -371,6 +375,18 @@ Scapy_ currently provides the traffic capture tooling, but the code already has 
     ::
     
         ./network_pipeline/scripts/capture_tcp.py
+
+    Capture SSH Traffic
+
+    ::
+
+        ./network_pipeline/scripts/capture_ssh.py
+
+    Capture Telnet Traffic
+
+    ::
+
+        ./network_pipeline/scripts/capture_telnet.py
 
 #.  Capture UDP Data
 

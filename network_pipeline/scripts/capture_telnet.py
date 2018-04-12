@@ -6,16 +6,17 @@ from network_pipeline.log.setup_logging import build_colorized_logger
 from network_pipeline.handle_packets import handle_packets
 
 
-name = "cap-icmp"
+name = "cap-telnet"
 log = build_colorized_logger(
     name=name,
-    config="capture-icmp-logging.json")
+    config="capture-telnet-logging.json")
 
 
-def capture_icmp_packets():
-    """capture_icmp_packets
+def capture_tcp_packets_over_telnet():
+    """capture_tcp_packets_over_telnet
 
-    Capture ``ICMP`` packets and call the ``handle_packets`` method
+    Capture ``TCP`` packets over telnet
+    and call the ``handle_packets`` method
 
     Change the network interface by ``export CAP_DEVICE=eth0``
 
@@ -33,7 +34,7 @@ def capture_icmp_packets():
     """
 
     # http://biot.com/capstats/bpf.html
-    default_filter = "icmp"
+    default_filter = ("tcp and ( port 23 )")
     custom_filter = ev(
         "NETWORK_FILTER",
         default_filter)
@@ -49,8 +50,8 @@ def capture_icmp_packets():
 
     log.info("done")
 
-# end of capture_icmp_packets
+# end of capture_tcp_packets_over_telnet
 
 
 if __name__ == "__main__":
-    capture_icmp_packets()
+    capture_tcp_packets_over_telnet()

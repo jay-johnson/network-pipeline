@@ -59,7 +59,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.14",
+    version="1.0.15",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +
@@ -123,7 +123,9 @@ setup(
         "network_pipeline/scripts/arp_send_msg.py",
         "network_pipeline/scripts/capture_arp.py",
         "network_pipeline/scripts/capture_icmp.py",
+        "network_pipeline/scripts/capture_ssh.py",
         "network_pipeline/scripts/capture_tcp.py",
+        "network_pipeline/scripts/capture_telnet.py",
         "network_pipeline/scripts/capture_udp.py",
         "network_pipeline/scripts/icmp_send_msg.py",
         "network_pipeline/scripts/listen_udp_port.py",

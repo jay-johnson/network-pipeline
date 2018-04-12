@@ -1,11 +1,10 @@
 import os
 import sys
-import logging
 import json
 import pandas as pd
 from pandas.io.json import json_normalize
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import setup_logging
+from network_pipeline.log.setup_logging import build_colorized_logger
 from network_pipeline.utils import ppj
 from network_pipeline.utils import rnow
 from network_pipeline.build_packet_key import build_packet_key
@@ -23,9 +22,9 @@ from antinex_client.build_ai_client_from_env import build_ai_client_from_env
 from antinex_client.generate_ai_request import generate_ai_request
 
 
-setup_logging()
 name = "csv"
-log = logging.getLogger(name)
+log = build_colorized_logger(
+        name=name)
 
 
 class RecordPacketsToCSV:
@@ -120,8 +119,9 @@ class RecordPacketsToCSV:
         # noqa https://github.com/jay-johnson/antinex-client/blob/master/examples/example-prediction.env
         self.request_dict = {}
         if ANTINEX_PUBLISH_ENABLED:
-            with open(ANTINEX_PUBLISH_REQUEST_FILE, "r") as f:
-                self.request_dict = json.loads(f.read())
+            if os.path.exists(ANTINEX_PUBLISH_REQUEST_FILE):
+                with open(ANTINEX_PUBLISH_REQUEST_FILE, "r") as f:
+                    self.request_dict = json.loads(f.read())
         # if publishing is enabled
 
     # end of __init__

@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 
-import logging
 import scapy.all as scapy
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import setup_logging
+from network_pipeline.log.setup_logging import build_colorized_logger
 from network_pipeline.handle_packets import handle_packets
 
 
-setup_logging()
-# scapy capture agent
-name = "cap"
-log = logging.getLogger(name)
+name = "cap-arp"
+log = build_colorized_logger(
+    name=name,
+    config="capture-arp-logging.json")
 
 
 def capture_arp_packets():

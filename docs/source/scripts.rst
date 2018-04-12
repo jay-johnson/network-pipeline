@@ -1,21 +1,40 @@
+========================
 Network Pipeline Scripts
 ========================
 
 Capture Agents
---------------
+==============
 
 Here are the AntiNex Network Pipeline Capture Agents. These scripts allow for capturing traffic on a network device and flattening it into JSON dictionaries before publishing to the aggregation message broker. Please refer to the ``handle_packets`` method for more details.
 
 .. warning:: These tools will capture network traffic. Please be careful where you deploy them.
 
+ARP
+---
+
 .. automodule:: network_pipeline.scripts.capture_arp
    :members: capture_arp_packets
+
+ICMP
+----
 
 .. automodule:: network_pipeline.scripts.capture_icmp
    :members: capture_icmp_packets
 
+TCP
+---
+
+.. automodule:: network_pipeline.scripts.capture_ssh
+   :members: capture_tcp_packets_over_ssh
+
 .. automodule:: network_pipeline.scripts.capture_tcp
    :members: capture_tcp_packets
+
+.. automodule:: network_pipeline.scripts.capture_telnet
+   :members: capture_tcp_packets_over_telnet
+
+UDP
+---
 
 .. automodule:: network_pipeline.scripts.capture_udp
    :members: capture_udp_packets
