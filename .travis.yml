@@ -12,7 +12,7 @@ install:
 
 script:
   - echo "Starting Linting Tests"
-  - flake8 .
-  - pycodestyle --exclude=./simulations,.tox,.eggs
+  # - flake8 .
+  # - pycodestyle --exclude=./simulations,.tox,.eggs
   - echo "Starting Unit Tests"
   - python setup.py test
