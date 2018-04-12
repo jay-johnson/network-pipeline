@@ -8,10 +8,10 @@ before_install:
   - export PIP_USE_MIRRORS=true
 
 install:
-  - pip install --upgrade -e .
+  - pip install -e .
 
 script:
-  - echo "Starting Linting Tests"
+  # - echo "Starting Linting Tests"
   # - flake8 .
   # - pycodestyle --exclude=./simulations,.tox,.eggs
   - echo "Starting Unit Tests"
