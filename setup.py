@@ -30,7 +30,7 @@ install_requires = [
     "pandas",
     "pep8>=1.7.1",
     "pipenv",
-    "pydocstyle",
+    "pydocstyle==2.3.1",
     "pylint",
     "python-logstash",
     "python-owasp-zap-v2.4",
