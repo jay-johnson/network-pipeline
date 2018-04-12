@@ -105,15 +105,23 @@ def build_colorized_logger(
     :param log_level: level to log
     :param log_config_path: path to log config file
     """
-    use_config = ("./log/{}").format(
-                    "{}".format(
-                        config))
+    use_config = ("{}").format(
+                    config)
     if not os.path.exists(use_config):
-        use_config = log_config_path
+        use_config = ("./network_pipeline/log/{}").format(
+                            config)
         if not os.path.exists(use_config):
-            use_config = ("./network_pipeline/log/{}").format(
-                            "logging.json")
-    # find the log processing
+            use_config = log_config_path
+            if not os.path.exists(use_config):
+                use_config = ("./log/{}").format(
+                            config)
+                if not os.path.exists(use_config):
+                    use_config = ("./network_pipeline/log/{}").format(
+                                "logging.json")
+                # find the last log config backup from the base of the repo
+            # find the log config from the defaults with the env LOG_CFG
+        # find the log config from the base of the repo
+    # find the log config by the given path
 
     setup_logging(
         default_level=log_level,

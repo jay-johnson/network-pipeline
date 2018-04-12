@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
-import logging
 from celery_connectors.kombu_subscriber import KombuSubscriber
 from network_pipeline.consts import FORWARD_BROKER_URL
 from network_pipeline.consts import FORWARD_SSL_OPTIONS
 from network_pipeline.consts import FORWARD_QUEUE
-from network_pipeline.log.setup_logging import setup_logging
+from network_pipeline.log.setup_logging import build_colorized_logger
 from network_pipeline.record_packets_to_csv import RecordPacketsToCSV
 
 
-setup_logging(config_name="packets-rabbitmq-logging.json")
 name = "kombu-rmq-sub"
-log = logging.getLogger(name)
+log = build_colorized_logger(
+    name=name,
+    config="packets-rabbitmq-logging.json")
 
 log.info("start - {}".format(name))
 
