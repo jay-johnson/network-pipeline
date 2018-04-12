@@ -8,7 +8,7 @@ before_install:
   - export PIP_USE_MIRRORS=true
 
 install:
-  - pip install -e .
+  - pip install --upgrade -e .
 
 script:
   - echo "Starting Linting Tests"
