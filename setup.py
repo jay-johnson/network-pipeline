@@ -24,7 +24,7 @@ install_requires = [
     "coverage",
     "colorlog",
     "docker-compose",
-    "flake8>=3.4.1",
+    "flake8==3.4.1",
     "future",
     "netifaces",
     "pandas",
