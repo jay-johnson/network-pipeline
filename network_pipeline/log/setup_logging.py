@@ -136,10 +136,11 @@ def build_colorized_logger(
                 "SHARED_LOG_CFG={}".format(
                     override_config)))
     else:
-        print((
-            "Not using shared logging env var: "
-            "SHARED_LOG_CFG={}".format(
-                override_config)))
+        if debug_log_config:
+            print((
+                "Not using shared logging env var: "
+                "SHARED_LOG_CFG={}".format(
+                    override_config)))
     # allow a shared log config across all components
 
     use_config = ("{}").format(
