@@ -38,3 +38,4 @@ py3venv
 *.jpeg
 *.tiff
 *.gif
+.pytest_cache
