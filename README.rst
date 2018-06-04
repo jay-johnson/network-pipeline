@@ -191,8 +191,9 @@ How do I get started?
 
     ::
 
-        git clone https://github.com/jay-johnson/network-pipeline.git
-        cd network-pipeline
+        mkdir -p -m 777 /opt/antinex
+        git clone https://github.com/jay-johnson/network-pipeline.git /opt/antinex/pipeline
+        cd /opt/antinex/pipeline
         virtualenv -p python3 /tmp/netpipevenv && source /tmp/netpipevenv/bin/activate && pip install -e .
 
 #.  Start Redis
@@ -638,7 +639,7 @@ Or clone the repository to the default value for the environment variable (``DS_
 
 ::
 
-    git clone https://github.com/jay-johnson/network-pipeline-datasets.git /opt/datasets
+    git clone https://github.com/jay-johnson/network-pipeline-datasets.git /opt/antinex/datasets
 
 Build Dataset
 -------------
