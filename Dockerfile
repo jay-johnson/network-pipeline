@@ -8,13 +8,13 @@ RUN echo "creating project directories" \
   && touch /var/log/antinex/pipeline/latest-packets-rabbitmq.log \
   && chmod 777 /var/log/antinex/pipeline/latest-packets-redis.log \
   && chmod 777 /var/log/antinex/pipeline/latest-packets-rabbitmq.log \
-  && echo "updating repos" \
+  && echo "updating repo" \
   && cd /opt/antinex/pipeline \
   && git checkout master
   && git pull
   && "checking repos in container" \
   && ls -l /opt/antinex/pipeline \
-  && echo "installing utils" \
+  && echo "activating venv" \
   && . /opt/venv/bin/activate \
   && cd /opt/antinex/pipeline \
   && echo "installing pip upgrades" \
@@ -42,4 +42,4 @@ RUN find /opt/antinex/pipeline -type d -exec chmod 777 {} \;
 RUN find /var/log/antinex -type d -exec chmod 777 {} \;
 
 ENTRYPOINT . /opt/venv/bin/activate \
-  && network_pipeline/scripts/packets_redis.py
+  && /opt/antinex/pipeline/network_pipeline/scripts/packets_redis.py
