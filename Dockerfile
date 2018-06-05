@@ -1,25 +1,45 @@
-FROM jayjohnson/celery-connectors:latest
+FROM jayjohnson/ai-core:latest
 
-RUN apk add --update \
-  gcc \
-  linux-headers
+RUN echo "creating project directories" \
+  && mkdir -p -m 777 /var/log/antinex/pipeline \
+  && mkdir -p -m 777 /opt/antinex \
+  && chmod 777 //var/log/antinex/pipeline \
+  && touch /var/log/antinex/pipeline/latest-packets-redis.log \
+  && touch /var/log/antinex/pipeline/latest-packets-rabbitmq.log \
+  && chmod 777 /var/log/antinex/pipeline/latest-packets-redis.log \
+  && chmod 777 /var/log/antinex/pipeline/latest-packets-rabbitmq.log \
+  && echo "updating repos" \
+  && cd /opt/antinex/pipeline \
+  && git checkout master
+  && git pull
+  && "checking repos in container" \
+  && ls -l /opt/antinex/pipeline \
+  && echo "installing utils" \
+  && . /opt/venv/bin/activate \
+  && cd /opt/antinex/pipeline \
+  && echo "installing pip upgrades" \
+  && pip install --upgrade -e . \
+  && echo "building docs" \
+  && cd /opt/antinex/pipeline/docs \
+  && ls -l \
+  && make html
 
-ENV START_SCRIPT /opt/networkpipeline/network_pipeline/scripts/start-container.sh
-ENV LOG_CFG /opt/networkpipeline/network_pipeline/log/colors-logging.json
+ENV PROJECT_NAME pipeline
+    SHARED_LOG_CFG /opt/antinex/core/antinex_core/log/debug-openshift-logging.json
+    DEBUG_SHARED_LOG_CFG 0
+    LOG_LEVEL DEBUG
+    LOG_FILE /var/log/antinex/pipeline/latest-packets-redis.log
+    USE_ENV drf-dev
+    USE_VENV /opt/venv
+    API_DEBUG false
+    USE_FILE false
+    SILENT -s
 
-RUN mkdir -p -m 777 /opt/networkpipeline
+WORKDIR /opt/antinex/pipeline
 
-COPY network-pipeline-latest.tgz /opt/networkpipeline
+# set for anonymous user access in the container
+RUN find /opt/antinex/pipeline -type d -exec chmod 777 {} \;
+RUN find /var/log/antinex -type d -exec chmod 777 {} \;
 
-RUN cd /opt/networkpipeline \
-  && tar xvf network-pipeline-latest.tgz \
-  && ls /opt/networkpipeline \
-  && cd /opt/networkpipeline \
-  && ls -l /opt/networkpipeline \
-  && source /opt/celery_connectors/venv/bin/activate \
-  && pip install -e . \
-  && pip list --format=columns
-
-WORKDIR /opt/networkpipeline
-
-ENTRYPOINT /opt/networkpipeline/network_pipeline/scripts/start-container.sh
+ENTRYPOINT . /opt/venv/bin/activate \
+  && network_pipeline/scripts/packets_redis.py
