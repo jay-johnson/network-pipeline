@@ -10,9 +10,9 @@ RUN echo "creating project directories" \
   && chmod 777 /var/log/antinex/pipeline/latest-packets-rabbitmq.log \
   && echo "updating repo" \
   && cd /opt/antinex/pipeline \
-  && git checkout master
-  && git pull
-  && "checking repos in container" \
+  && git checkout master \
+  && git pull \
+  && echo "checking repos in container" \
   && ls -l /opt/antinex/pipeline \
   && echo "activating venv" \
   && . /opt/venv/bin/activate \
@@ -24,16 +24,16 @@ RUN echo "creating project directories" \
   && ls -l \
   && make html
 
-ENV PROJECT_NAME pipeline
-    SHARED_LOG_CFG /opt/antinex/core/antinex_core/log/debug-openshift-logging.json
-    DEBUG_SHARED_LOG_CFG 0
-    LOG_LEVEL DEBUG
-    LOG_FILE /var/log/antinex/pipeline/latest-packets-redis.log
-    USE_ENV drf-dev
-    USE_VENV /opt/venv
-    API_DEBUG false
-    USE_FILE false
-    SILENT -s
+ENV PROJECT_NAME="pipeline" \
+    SHARED_LOG_CFG="/opt/antinex/core/antinex_core/log/debug-openshift-logging.json" \
+    DEBUG_SHARED_LOG_CFG="0" \
+    LOG_LEVEL="DEBUG" \
+    LOG_FILE="/var/log/antinex/pipeline/latest-packets-redis.log" \
+    USE_ENV="drf-dev" \
+    USE_VENV="/opt/venv" \
+    API_DEBUG="false" \
+    USE_FILE="false" \
+    SILENT="-s"
 
 WORKDIR /opt/antinex/pipeline
 
