@@ -23,14 +23,14 @@ install_requires = [
     "celery-connectors",
     "coverage",
     "colorlog",
-    "docker-compose",
     "flake8<=3.4.1",
     "future",
     "netifaces",
     "pandas",
     "pep8>=1.7.1",
     "pipenv",
-    "pydocstyle<=2.3.1",
+    "pydocstyle",
+    "pycodestyle<=2.3.1",
     "pylint",
     "python-logstash",
     "python-owasp-zap-v2.4",
@@ -60,7 +60,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.22",
+    version="1.0.23",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +

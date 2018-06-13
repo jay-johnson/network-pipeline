@@ -140,14 +140,6 @@ AntiNex Network Pipeline is part of the AntiNex stack:
      - .. image:: https://readthedocs.org/projects/antinex-client/badge/?version=latest
            :alt: Read the Docs AntiNex Client Tests
            :target: https://readthedocs.org/projects/antinex-client/badge/?version=latest
-   * - `Fuzzball <https://github.com/jay-johnson/fuzzball>`__
-     - .. image:: https://travis-ci.org/jay-johnson/fuzzball.svg?branch=master
-           :alt: Travis Fuzzball Tests
-           :target: https://travis-ci.org/jay-johnson/fuzzball.svg
-     - `Docs <http://fuzzball.readthedocs.io/en/latest/>`__
-     - .. image:: https://readthedocs.org/projects/fuzzball/badge/?version=latest
-           :alt: Read the Docs Fuzzball Testing Tool
-           :target: https://readthedocs.org/projects/fuzzball/badge/?version=latest
 
 What packets and layers are supported?
 ======================================
@@ -210,6 +202,8 @@ How do I get started?
 
     ::
 
+        # if you do not have docker-compose installed, you can try to install it with:
+        # pip install docker-compose
         ./start.sh
 
 #.  Verify Redis is Working
