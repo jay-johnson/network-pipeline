@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pandas as pd
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import build_colorized_logger
+from spylunking.log.setup_logging import build_colorized_logger
 from network_pipeline.consts import VALID
 from network_pipeline.consts import INVALID
 from network_pipeline.consts import ERROR

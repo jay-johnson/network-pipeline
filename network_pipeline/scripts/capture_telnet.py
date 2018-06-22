@@ -2,7 +2,7 @@
 
 import scapy.all as scapy
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import build_colorized_logger
+from spylunking.log.setup_logging import build_colorized_logger
 from network_pipeline.handle_packets import handle_packets
 
 

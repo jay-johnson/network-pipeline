@@ -4,7 +4,7 @@ from celery_connectors.kombu_subscriber import KombuSubscriber
 from network_pipeline.consts import FORWARD_BROKER_URL
 from network_pipeline.consts import FORWARD_SSL_OPTIONS
 from network_pipeline.consts import FORWARD_QUEUE
-from network_pipeline.log.setup_logging import build_colorized_logger
+from spylunking.log.setup_logging import build_colorized_logger
 from network_pipeline.record_packets_to_csv import RecordPacketsToCSV
 
 

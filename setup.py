@@ -36,6 +36,7 @@ install_requires = [
     "python-owasp-zap-v2.4",
     "python-dateutil<2.7.0",
     "scapy-python3",
+    "spylunking",
     "tox",
     "unittest2",
     "mock"
@@ -60,7 +61,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.24",
+    version="1.0.25",
     description="Distributed Network Packet Analysis Pipeline " +
     "for Layer 2, 3 and 4 Frames",
     long_description="" +

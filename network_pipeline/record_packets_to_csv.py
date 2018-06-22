@@ -4,7 +4,7 @@ import json
 import pandas as pd
 from pandas.io.json import json_normalize
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import build_colorized_logger
+from spylunking.log.setup_logging import build_colorized_logger
 from network_pipeline.utils import ppj
 from network_pipeline.utils import rnow
 from network_pipeline.build_packet_key import build_packet_key
