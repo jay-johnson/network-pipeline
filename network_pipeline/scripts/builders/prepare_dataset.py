@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 
-import logging
 import pandas as pd
 import glob
 import copy
 import random
+from spylunking.log.setup_logging import console_logger
 from network_pipeline.consts import VALID
 from network_pipeline.consts import INVALID
 from network_pipeline.utils import ppj
 from network_pipeline.utils import rnow
-from network_pipeline.log.setup_logging import setup_logging
 from celery_connectors.utils import ev
 
 
-setup_logging(config_name="builders.json")
 name = "builder"
-log = logging.getLogger(name)
+log = console_logger(
+    name=name)
+
+
 log.info("start - {}".format(name))
 
 

@@ -1,18 +1,16 @@
-import logging
 from network_pipeline.consts import SOURCE
 from network_pipeline.consts import FORWARD_EXCHANGE
 from network_pipeline.consts import FORWARD_ROUTING_KEY
 from network_pipeline.consts import FORWARD_QUEUE
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 from network_pipeline.utils import rnow
 from network_pipeline.convert_pkt_to_json import convert_pkt_to_json
 from network_pipeline.publisher import pub
 import scapy.all as scapy
 
 
-setup_logging()
-name = "proc"
-log = logging.getLogger(name)
+log = console_logger(
+    name='proc')
 
 
 def handle_packets(pk):

@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
+from spylunking.log.setup_logging import console_logger
 from celery_connectors.kombu_subscriber import KombuSubscriber
 from network_pipeline.consts import FORWARD_BROKER_URL
 from network_pipeline.consts import FORWARD_SSL_OPTIONS
 from network_pipeline.consts import FORWARD_QUEUE
-from spylunking.log.setup_logging import build_colorized_logger
 from network_pipeline.record_packets_to_csv import RecordPacketsToCSV
 
 
-name = "kombu-rmq-sub"
-log = build_colorized_logger(
-    name=name,
-    config="packets-rabbitmq-logging.json")
+name = 'packets_rabbitmq'
+log = console_logger(
+    name=name)
+
 
 log.info("start - {}".format(name))
 

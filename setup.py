@@ -61,9 +61,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.0.33",
-    description="Distributed Network Packet Analysis Pipeline " +
-    "for Layer 2, 3 and 4 Frames",
+    version="1.0.35",
+    description=(
+        "Distributed Network Packet Analysis Pipeline " +
+        "for Layer 2, 3 and 4 Frames"),
     long_description="" +
     "Python 3 AI-ready framework for recording network traffic in "
     "a data pipeline. Once recorded, you can train a " +

@@ -1,10 +1,9 @@
-import logging
 import multiprocessing
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 
-setup_logging()
-name = "pcktr"
-log = logging.getLogger(name)
+
+log = console_logger(
+    name='worker_to_process_packets')
 
 
 class WorkerToProcessPackets(multiprocessing.Process):
@@ -27,6 +26,7 @@ class WorkerToProcessPackets(multiprocessing.Process):
         """
         multiprocessing.Process.__init__(self)
         self.name = name
+        self.response_name = 'pcktr'
         self.task_queue = task_queue
         self.need_response = need_response
         self.result_queue = result_queue
@@ -41,7 +41,7 @@ class WorkerToProcessPackets(multiprocessing.Process):
             log.info(("{} - using callback={}")
                      .format(self.name,
                              self.callback))
-            self.callback(name=name,
+            self.callback(name=self.response_name,
                           task_queue=self.task_queue,
                           result_queue=self.result_queue,
                           shutdown_msg=self.shutdown_msg)

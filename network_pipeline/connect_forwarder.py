@@ -1,11 +1,10 @@
-import logging
 import socket
 import time
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 
-setup_logging()
-name = "connect-forwarder"
-log = logging.getLogger(name)
+
+log = console_logger(
+    name='connect_forwarder')
 
 
 def connect_forwarder(forward_host=None,

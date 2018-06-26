@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 
-import logging
 import scapy.all as scapy
+from spylunking.log.setup_logging import console_logger
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import setup_logging
 from network_pipeline.handle_packets import handle_packets
 
 
-setup_logging()
-# scapy capture agent
-name = "cap"
-log = logging.getLogger(name)
+log = console_logger(
+    name='base_capture')
 
 
 def example_capture():

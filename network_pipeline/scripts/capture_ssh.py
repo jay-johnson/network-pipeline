@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 
 import scapy.all as scapy
+from spylunking.log.setup_logging import console_logger
 from celery_connectors.utils import ev
-from spylunking.log.setup_logging import build_colorized_logger
 from network_pipeline.handle_packets import handle_packets
 
 
-name = "cap-ssh"
-log = build_colorized_logger(
-    name=name,
-    config="capture-ssh-logging.json")
+log = console_logger(
+    name='cap_ssh')
 
 
 def capture_tcp_packets_over_ssh():

@@ -2,27 +2,23 @@
 
 import os
 import sys
-import logging
 import socket
 import datetime
 import time
 import json
+from spylunking.log.setup_logging import console_logger
 from network_pipeline.consts import INCLUDED_IGNORE_KEY
 from network_pipeline.consts import VALID
 from network_pipeline.consts import TCP
 from network_pipeline.consts import UDP
 from network_pipeline.consts import ICMP
 from network_pipeline.consts import ARP
-from network_pipeline.log.setup_logging import setup_logging
 from network_pipeline.utils import ppj
 
-# from celery_connectors.publisher import Publisher
-
-setup_logging()
 
 # consolidator - receives packets from network agents
-name = "cdr"
-log = logging.getLogger(name)
+log = console_logger(
+    name='consolidate_packets')
 
 
 def handle_processing_packets():

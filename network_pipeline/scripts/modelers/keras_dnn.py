@@ -2,18 +2,19 @@
 
 import os
 import sys
-import logging
+from spylunking.log.setup_logging import console_logger
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import setup_logging
 from network_pipeline.consts import VALID
 from network_pipeline.build_training_request import build_training_request
 from keras.models import Sequential
 from keras.layers import Dense
 
 
-setup_logging(config_name="modelers.json")
-name = "keras-dnn"
-log = logging.getLogger(name)
+name = 'keras-dnn'
+log = console_logger(
+    name=name)
+
+
 log.info("start - {}".format(name))
 
 

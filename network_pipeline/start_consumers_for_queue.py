@@ -1,10 +1,9 @@
-import logging
 import multiprocessing
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 
-setup_logging()
-name = "start-consumers"
-log = logging.getLogger(name)
+
+log = console_logger(
+    name='start_consumers_for_queue')
 
 
 def start_consumers_for_queue(prefix_name="worker",
@@ -15,6 +14,17 @@ def start_consumers_for_queue(prefix_name="worker",
                               consumer_class=None,
                               need_response=False,
                               callback=None):
+    """start_consumers_for_queue
+
+    :param prefix_name:
+    :param num_workers:
+    :param tasks:
+    :param queue_to_consume:
+    :param shutdown_msg:
+    :param consumer_class:
+    :param need_response:
+    :param callback:
+    """
 
     consumers = []
 

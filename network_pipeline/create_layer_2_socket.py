@@ -1,10 +1,9 @@
-import logging
 import socket
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 
-setup_logging()
-name = "create-layer2"
-log = logging.getLogger(name)
+
+log = console_logger(
+    name='create_l2_socket')
 
 
 def create_layer_2_socket():

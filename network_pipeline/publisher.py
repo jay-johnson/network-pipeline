@@ -1,15 +1,13 @@
-import logging
 from network_pipeline.consts import SOURCE
 from network_pipeline.consts import FORWARD_BROKER_URL
 from network_pipeline.consts import FORWARD_SSL_OPTIONS
 from network_pipeline.consts import FORWARD_ENDPOINT_TYPE
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 from celery_connectors.publisher import Publisher
 
 
-setup_logging()
-name = "get_publisher"
-log = logging.getLogger(name)
+log = console_logger(
+    name='get_publisher')
 
 
 def get_publisher():

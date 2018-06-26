@@ -1,14 +1,12 @@
-import logging
 import json
 from collections import defaultdict
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 from network_pipeline.utils import ppj
 from network_pipeline.consts import DEBUG_PACKETS
 
 
-setup_logging()
-name = "ptoj"
-log = logging.getLogger(name)
+log = console_logger(
+    name='ptoj')
 
 
 def convert_pkt_to_json(pkg):

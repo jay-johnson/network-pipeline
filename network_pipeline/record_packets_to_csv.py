@@ -4,7 +4,7 @@ import json
 import pandas as pd
 from pandas.io.json import json_normalize
 from celery_connectors.utils import ev
-from spylunking.log.setup_logging import build_colorized_logger
+from spylunking.log.setup_logging import console_logger
 from network_pipeline.utils import ppj
 from network_pipeline.utils import rnow
 from network_pipeline.build_packet_key import build_packet_key
@@ -22,9 +22,8 @@ from antinex_client.build_ai_client_from_env import build_ai_client_from_env
 from antinex_client.generate_ai_request import generate_ai_request
 
 
-name = "csv"
-log = build_colorized_logger(
-        name=name)
+log = console_logger(
+        name='csv')
 
 
 class RecordPacketsToCSV:

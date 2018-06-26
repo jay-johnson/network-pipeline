@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 import os
-import logging
 import multiprocessing
 import time
+from spylunking.log.setup_logging import console_logger
 from celery_connectors.utils import ev
-from network_pipeline.log.setup_logging import setup_logging
 from network_pipeline.tcp_helpers import send_msg
 from network_pipeline.consts import VALID
 from network_pipeline.consts import INVALID
@@ -28,10 +27,9 @@ from network_pipeline.network_packet_task import \
     NetworkPacketTask
 
 
-setup_logging()
-# network agent
-name = "nta"
-log = logging.getLogger(name)
+name = 'network_agent'
+log = console_logger(
+    name=name)
 
 
 def publish_processed_network_packets(

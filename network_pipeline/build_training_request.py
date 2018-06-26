@@ -2,16 +2,16 @@ import os
 import json
 import numpy as np
 import pandas as pd
+from spylunking.log.setup_logging import console_logger
 from celery_connectors.utils import ev
-from spylunking.log.setup_logging import build_colorized_logger
 from network_pipeline.consts import VALID
 from network_pipeline.consts import INVALID
 from network_pipeline.consts import ERROR
 from sklearn.model_selection import train_test_split
 
 
-name = "training-utils"
-log = build_colorized_logger(name=name)
+log = console_logger(
+    name='build_training_request')
 
 
 def build_training_request(

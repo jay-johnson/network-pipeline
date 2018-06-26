@@ -1,4 +1,3 @@
-import logging
 import uuid
 import socket
 import json
@@ -31,11 +30,11 @@ from network_pipeline.consts import ARP_PROTO_ETH
 from network_pipeline.consts import TCP_PROTO_IP
 from network_pipeline.consts import UDP_PROTO_IP
 from network_pipeline.consts import ICMP_PROTO_IP
-from network_pipeline.log.setup_logging import setup_logging
+from spylunking.log.setup_logging import console_logger
 
-setup_logging()
-name = "parser"
-log = logging.getLogger(name)
+
+log = console_logger(
+    name='parse_network_data')
 
 
 # Get string of 6 characters as ethernet address into dash seperated hex string
