@@ -8,13 +8,13 @@ target = "http://localhost:8090"
 # or use None if the API key is disabled
 apikey = "changeme"
 
-# By default ZAP API client will connect to port 8080
+# By default ZAP API client will connect to port 8010
 zap = ZAPv2(apikey=apikey,
             proxies={"http": target,
                      "https": target})
 
 """
-Use the line below if ZAP is not listening on port 8080,
+Use the line below if ZAP is not listening on port 8010,
 for example, if listening on port 8090
 zap = ZAPv2(apikey=apikey, proxies={"http": "http://127.0.0.1:8090",
                                     "https": "http://127.0.0.1:8090"})

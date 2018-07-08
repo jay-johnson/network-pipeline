@@ -3,7 +3,7 @@
 # https://github.com/frol/flask-restplus-server-example#authentication-with-login-and-password-resource-owner-password-credentials-grant
 user="root"
 password="q"
-endpoint="http://127.0.0.1:8080"
+endpoint="http://127.0.0.1:8010"
 
 if [[ "${FLASK_USER}" ]]; then
     user="${FLASK_USER}"

@@ -21,7 +21,7 @@ secret_key = os.getenv(
             "")
 endpoint = os.getenv(
             "ZAP_ENDPOINT_URL",
-            "http://localhost:8080")
+            "http://localhost:8010")
 
 token_auth_url = ("{}/auth/oauth2/token?"
                   "grant_type=password"
@@ -58,20 +58,20 @@ if not apikey:
 # end of getting a token
 
 target = "{}".format(
-            "http://127.0.0.1:8080")
+            "http://127.0.0.1:8010")
 
 if apikey != "changeme":
     print(("Starting ZAP with target={} apikey={}")
           .format(target,
                   apikey))
 
-# By default ZAP API client will connect to port 8080
+# By default ZAP API client will connect to port 8010
 zap = ZAPv2(apikey=apikey,
             proxies={"http": "http://localhost:8090",
                      "https": "http://localhost:8090"})
 
 """
-Use the line below if ZAP is not listening on port 8080,
+Use the line below if ZAP is not listening on port 8010,
 for example, if listening on port 8090
 zap = ZAPv2(apikey=apikey, proxies={"http": "http://127.0.0.1:8090",
                                     "https": "http://127.0.0.1:8090"})

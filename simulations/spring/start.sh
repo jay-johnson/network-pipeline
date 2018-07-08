@@ -3,8 +3,8 @@
 source /tmp/netpipevenv/bin/activate
 
 echo ""
-echo "Starting Pet Clinic application listening on TCP port 8080"
-echo "http://localhost:8080/petclinic"
+echo "Starting Pet Clinic application listening on TCP port 8010"
+echo "http://localhost:8010/petclinic"
 echo ""
 
 cd terracotta-oss-docker/client
@@ -17,4 +17,4 @@ docker logs petclinic
 
 echo ""
 echo "View the Pet Clinic at:"
-echo "http://localhost:8080/petclinic"
+echo "http://localhost:8010/petclinic"

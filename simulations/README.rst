@@ -3,7 +3,7 @@ Network Traffic Simulations
 
 This directory holds examples for generating ZAP tests for recording network traffic. The included web applications are targeted by **ZAP** attacks and `dynamic analysis testing`_ and recorded using the capture tools. Once a server is running you can use the `ZAPv2 script`_ to generate network traffic, and auto-capture it as a dataset for modeling and predicting an incoming attack on your network layer.
 
-This guide assumes the `Network Pipeline - Capture tools`_ are already running and capturing traffic on the server port (TCP 8080 by default).
+This guide assumes the `Network Pipeline - Capture tools`_ are already running and capturing traffic on the server port (TCP 8010 by default).
 
 .. _dynamic analysis testing: https://www.owasp.org/index.php/Category:Vulnerability_Scanning_Tools
 .. _ZAPv2 script: https://github.com/zaproxy/zaproxy/wiki/ApiPython
@@ -17,7 +17,7 @@ Starting ZAP
 
 #.  Start the ZAP Docker Proxy
 
-    This will start the `owasp/zap2docker-live`_ docker image that is ``~1.5 GB``. This will run on TCP port 8090 on the local host and then scans a web application listening on TCP port 8080.
+    This will start the `owasp/zap2docker-live`_ docker image that is ``~1.5 GB``. This will run on TCP port 8090 on the local host and then scans a web application listening on TCP port 8010.
     
     ::
 
@@ -55,8 +55,8 @@ https://github.com/alej0varas/django-registration-rest-framework
     ::
 
         ./start.sh 
-        Starting Django listening on TCP port 8080
-        http://localhost:8080/admin
+        Starting Django listening on TCP port 8010
+        http://localhost:8010/admin
 
         django-configurations version 2.0, using configuration 'Development'
         Performing system checks...
@@ -64,30 +64,30 @@ https://github.com/alej0varas/django-registration-rest-framework
         System check identified no issues (0 silenced).
         February 02, 2018 - 09:44:43
         Django version 2.0, using settings 'project_name.settings'
-        Starting development server at http://0.0.0.0:8080/
+        Starting development server at http://0.0.0.0:8010/
         Quit the server with CONTROL-C.
 
 #.  Browse the Django REST Framework API
     
-    http://0.0.0.0:8080/
+    http://0.0.0.0:8010/
 
 #.  Browse to Swagger
 
-    http://0.0.0.0:8080/swagger/
+    http://0.0.0.0:8010/swagger/
 
 #.  Login
 
     By default the super user is: ``root`` with password ``123321``
 
-    http://0.0.0.0:8080/api-auth/login/
+    http://0.0.0.0:8010/api-auth/login/
 
 #.  Create a new user
 
-    http://localhost:8080/swagger/#!/users/users_create
+    http://localhost:8010/swagger/#!/users/users_create
 
 #.  Get a JWT Token
 
-    http://localhost:8080/swagger/#!/api-token-auth/api_token_auth_create
+    http://localhost:8010/swagger/#!/api-token-auth/api_token_auth_create
 
 Flask RESTplus with Swagger
 ===========================
@@ -115,7 +115,7 @@ Flask RESTplus with Swagger
 Login using a browser
 ---------------------
 
-http://localhost:8080/api/v1/
+http://localhost:8010/api/v1/
 
 To authenticate, click the ``Authorize`` button on the top right.
 
@@ -153,7 +153,7 @@ To authenticate, click the ``Authorize`` button on the top right.
 
 #.  Get User Details
 
-    http://localhost:8080/api/v1/#!/users/get_user_me
+    http://localhost:8010/api/v1/#!/users/get_user_me
 
     Click the ``Try it out!`` button
 
@@ -179,12 +179,12 @@ To authenticate, click the ``Authorize`` button on the top right.
     ::
 
         ./flask-zap.py 
-        Starting zap with auth_url=http://localhost:8080/auth/oauth2/token?grant_type=password&client_id=documentation&username=root&password=q
-        Starting ZAP with target=http://127.0.0.1:8080 apikey=ADwUFlRehVS1vbhMkiNayoGjf3O8Xw
-        Accessing target=http://127.0.0.1:8080
-        Spidering target=http://127.0.0.1:8080
+        Starting zap with auth_url=http://localhost:8010/auth/oauth2/token?grant_type=password&client_id=documentation&username=root&password=q
+        Starting ZAP with target=http://127.0.0.1:8010 apikey=ADwUFlRehVS1vbhMkiNayoGjf3O8Xw
+        Accessing target=http://127.0.0.1:8010
+        Spidering target=http://127.0.0.1:8010
         Spider completed
-        Scanning target=http://127.0.0.1:8080
+        Scanning target=http://127.0.0.1:8010
         Scan progress 1: 
 
 #.  Verify Flask is processing the ZAP scan
@@ -233,15 +233,15 @@ Django 2.0
 
     Register a user:
     
-    http://0.0.0.0:8080/accounts/register/
+    http://0.0.0.0:8010/accounts/register/
     
     Login as that user:
 
-    http://0.0.0.0:8080/accounts/login/
+    http://0.0.0.0:8010/accounts/login/
     
     View user profile:
 
-    http://0.0.0.0:8080/accounts/profile/
+    http://0.0.0.0:8010/accounts/profile/
 
 #.  Run ZAPv2 test
         
@@ -297,7 +297,7 @@ React and Redux User Registration
 
 #.  Confirm React and Redux is running from a browser
 
-    http://localhost:8080/
+    http://localhost:8010/
 
 #.  Run ZAPv2 test
         
@@ -318,11 +318,11 @@ React and Redux User Registration
 
     ::
 
-        Starting ZAP with target=http://localhost:8080/ apikey=
-        Accessing target=http://localhost:8080/
-        Spidering target=http://localhost:8080/
+        Starting ZAP with target=http://localhost:8010/ apikey=
+        Accessing target=http://localhost:8010/
+        Spidering target=http://localhost:8010/
         Spider completed
-        Scanning target=http://localhost:8080/
+        Scanning target=http://localhost:8010/
         Scan progress 0: 
         Scan progress 18: 
         Scan progress 18: 
@@ -358,7 +358,7 @@ Vue User Registration
 
 #.  Confirm Vue is running from a browser
 
-    http://localhost:8080/#/login
+    http://localhost:8010/#/login
 
 #.  Run ZAPv2 test
         
@@ -379,11 +379,11 @@ Vue User Registration
 
     ::
 
-        Starting ZAP with target=http://localhost:8080/ apikey=
-        Accessing target=http://localhost:8080/
-        Spidering target=http://localhost:8080/
+        Starting ZAP with target=http://localhost:8010/ apikey=
+        Accessing target=http://localhost:8010/
+        Spidering target=http://localhost:8010/
         Spider completed
-        Scanning target=http://localhost:8080/
+        Scanning target=http://localhost:8010/
         Scan progress 0: 
         Scan progress 18: 
         Scan progress 18: 
@@ -413,7 +413,7 @@ Spring Pet Clinic
 
 #.  Verify Pet Clinic works in a browser
 
-    http://localhost:8080/petclinic
+    http://localhost:8010/petclinic
 
 #.  Run ZAPv2 test
         
@@ -434,11 +434,11 @@ Spring Pet Clinic
 
     ::
 
-        Starting ZAP with target=http://localhost:8080/ apikey=
-        Accessing target=http://localhost:8080/
-        Spidering target=http://localhost:8080/
+        Starting ZAP with target=http://localhost:8010/ apikey=
+        Accessing target=http://localhost:8010/
+        Spidering target=http://localhost:8010/
         Spider completed
-        Scanning target=http://localhost:8080/
+        Scanning target=http://localhost:8010/
         Scan progress 0: 
         Scan progress 18: 
         Scan progress 18: 

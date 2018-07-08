@@ -32,7 +32,7 @@ def capture_tcp_packets():
 
     # http://biot.com/capstats/bpf.html
     default_filter = ("tcp and ( port 80 or port 443 "
-                      "or port 8080 or port 8443 )")
+                      "or port 8010 or port 8443 )")
     custom_filter = ev(
         "NETWORK_FILTER",
         default_filter)

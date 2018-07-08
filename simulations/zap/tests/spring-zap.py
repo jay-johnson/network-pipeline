@@ -21,7 +21,7 @@ secret_key = os.getenv(
             "")
 endpoint = os.getenv(
             "ZAP_ENDPOINT_URL",
-            "http://localhost:8080")
+            "http://localhost:8010")
 target = "{}/petclinic".format(
             endpoint)
 
@@ -35,13 +35,13 @@ if apikey != "changeme":
           .format(target,
                   apikey))
 
-# By default ZAP API client will connect to port 8080
+# By default ZAP API client will connect to port 8010
 zap = ZAPv2(apikey=apikey,
             proxies={"http": "http://localhost:8090",
                      "https": "http://localhost:8090"})
 
 """
-Use the line below if ZAP is not listening on port 8080,
+Use the line below if ZAP is not listening on port 8010,
 for example, if listening on port 8090
 zap = ZAPv2(apikey=apikey, proxies={"http": "http://127.0.0.1:8090",
                                     "https": "http://127.0.0.1:8090"})

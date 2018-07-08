@@ -13,7 +13,7 @@ fi
 
 echo ""
 echo "Getting OAuth token for user=${user}"
-curl -vvvv "http://127.0.0.1:8080/auth/oauth2/token?grant_type=password&client_id=documentation&username=${user}&password=${password}"
+curl -vvvv "http://127.0.0.1:8010/auth/oauth2/token?grant_type=password&client_id=documentation&username=${user}&password=${password}"
 last_status=$?
 if [[ "${last_status}" != "0" ]]; then
     echo "Failed to get a token with user=${user}"
