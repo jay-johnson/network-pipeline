@@ -23,7 +23,7 @@ services:
       # but the capture tools need to export
       # the FORWARD_BROKER_URL as well for
       # pub/sub to work
-      - FORWARD_BROKER_URL=redis://localhost:6379/0
+      - FORWARD_BROKER_URL=redis://localhost:6379/15
       # save every nth packet
       - SAVE_AFTER_NUM=100
       # stop processing after nth packets

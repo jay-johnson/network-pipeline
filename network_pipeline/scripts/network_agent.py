@@ -46,7 +46,7 @@ def publish_processed_network_packets(
     queue_name = ev("PUBLISH_QUEUE",
                     "reporting.accounts")
     auth_url = ev("PUB_BROKER_URL",
-                  "redis://localhost:6379/0")
+                  "redis://localhost:6379/15")
     serializer = "json"
     """
 

@@ -61,7 +61,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.2.6",
+    version="1.2.7",
     description=(
         "Distributed Network Packet Analysis Pipeline " +
         "for Layer 2, 3 and 4 Frames"),
@@ -97,9 +97,9 @@ setup(
     "There are test tools installed with this pip to quickly " +
     "send mock: TCP, UDP, ARP and ICMP packets. " +
     "\n" +
-    "This build currently utilizes scapy-python3 " +
+    "This build currently utilizes kamene " +
     "for packet recording: " +
-    "https://github.com/phaethon/scapy " +
+    "https://github.com/phaethon/kamene " +
     "\n" +
     "Future builds will utilize the multiprocessing engine " +
     "included but does not filter src/dst ports correctly yet." +

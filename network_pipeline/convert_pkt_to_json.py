@@ -15,7 +15,7 @@ def convert_pkt_to_json(pkg):
     https://gist.githubusercontent.com/cr0hn/1b0c2e672cd0721d3a07/raw/9144676ceb12dbd545e6dce366822bbedde8de2c/pkg_to_json.py
     This function convert a Scapy packet to JSON
 
-    :param pkg: A scapy package
+    :param pkg: A kamene package
     :type pkg: objects
 
     :return: A JSON data

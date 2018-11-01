@@ -356,7 +356,7 @@ These tools are installed with the pip and require running with root to be able 
 
 Scapy_ currently provides the traffic capture tooling, but the code already has a semi-functional scalable, multi-processing engine to replace it. This will be ideal for dropping on a heavily utilized load balancer tier and run as an agent managed as a systemd service.
 
-.. _Scapy: https://github.com/phaethon/scapy
+.. _Scapy: https://github.com/phaethon/kamene
 
 #.  Login as root
 

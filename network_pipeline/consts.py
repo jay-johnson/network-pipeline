@@ -8,7 +8,7 @@ SOURCE = os.getenv(
     "localdev").strip().lstrip()
 FORWARD_BROKER_URL = os.getenv(
     "FORWARD_BROKER_URL",
-    "redis://localhost:6379/0").strip().lstrip()
+    "redis://localhost:6379/15").strip().lstrip()
 FORWARD_SSL_OPTIONS = json.loads(os.getenv(
     "FORWARD_SSL_OPTIONS",
     "{}").strip().lstrip())

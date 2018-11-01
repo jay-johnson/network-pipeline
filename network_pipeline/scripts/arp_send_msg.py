@@ -2,7 +2,7 @@
 
 import os
 import netifaces
-import scapy.all as scapy
+import kamene.all as kamene
 
 
 def send_arp_msg():
@@ -29,10 +29,10 @@ def send_arp_msg():
             dst_mac,
             dst_ip))
 
-    answered, unanswered = scapy.srp(
-                            scapy.Ether(
+    answered, unanswered = kamene.srp(
+                            kamene.Ether(
                                 dst=dst_mac
-                            ) / scapy.ARP(
+                            ) / kamene.ARP(
                                 pdst=dst_ip
                             ),
                             timeout=2,
@@ -40,11 +40,11 @@ def send_arp_msg():
 
     if len(answered) > 0:
         print(answered[0][0].getlayer(
-            scapy.ARP
+            kamene.ARP
         ).pdst + " is up")
     elif len(unanswered) > 0:
         print(unanswered[0].getlayer(
-            scapy.ARP
+            kamene.ARP
         ).pdst + " is down")
 
 # end of send_arp_msg

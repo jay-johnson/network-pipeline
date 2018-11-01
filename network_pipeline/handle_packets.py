@@ -6,7 +6,7 @@ from spylunking.log.setup_logging import console_logger
 from network_pipeline.utils import rnow
 from network_pipeline.convert_pkt_to_json import convert_pkt_to_json
 from network_pipeline.publisher import pub
-import scapy.all as scapy
+import kamene.all as kamene
 
 
 log = console_logger(
@@ -16,14 +16,14 @@ log = console_logger(
 def handle_packets(pk):
     """handle_packets
 
-    :param pk: data packet that scapy sends in
+    :param pk: data packet that kamene sends in
     """
 
     log.info(("processing with pub={}")
              .format(pub))
 
     # get the lowest layer
-    eth = pk.getlayer(scapy.Ether)
+    eth = pk.getlayer(kamene.Ether)
 
     should_forward = False
     send_msg = {"data": {},

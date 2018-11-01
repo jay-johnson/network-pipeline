@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import scapy.all as scapy
+import kamene.all as kamene
 from spylunking.log.setup_logging import console_logger
 from celery_connectors.utils import ev
 from network_pipeline.handle_packets import handle_packets
@@ -42,7 +42,7 @@ def capture_tcp_packets():
                 dev,
                 custom_filter))
 
-    scapy.sniff(
+    kamene.sniff(
         filter=custom_filter,
         prn=handle_packets)
 
