@@ -13,15 +13,13 @@ try:
 except ImportError:
     from distutils.command.build_py import build_py
 
-long_description = ''
-try:
-    import pypandoc
-    long_description = pypandoc.convert(
-        'README.rst',
-        'rst')
-except(IOError, ImportError):
-    long_description = open('README.rst').read()
-
+"""
+https://packaging.python.org/guides/making-a-pypi-friendly-readme/
+check the README.rst works on pypi as the
+long_description with:
+twine check dist/*
+"""
+long_description = open('README.rst').read()
 cur_path, cur_script = os.path.split(sys.argv[0])
 os.chdir(os.path.abspath(cur_path))
 
@@ -44,7 +42,6 @@ install_requires = [
     "python-logstash",
     "python-owasp-zap-v2.4",
     "python-dateutil<2.7.0",
-    "pypandoc",
     "spylunking",
     "tox",
     "unittest2",
@@ -70,7 +67,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 setup(
     name="network-pipeline",
     cmdclass={"build_py": build_py},
-    version="1.2.8",
+    version="1.2.9",
     description=(
         "Distributed Network Packet Analysis Pipeline " +
         "for Layer 2, 3 and 4 Frames"),
