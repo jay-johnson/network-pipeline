@@ -149,13 +149,13 @@ def publish_processed_network_packets(
                                             network_data["stream"]
                                             .encode("utf-8"))
                                         sent = True
-                                    except Exception as e:
+                                    except Exception:
                                         sent = False
                                         time.sleep(0.5)
                                         try:
                                             forward_skt.close()
                                             forward_skt = None
-                                        except Exception as w:
+                                        except Exception:
                                             forward_skt = None
                                         forward_skt = connect_forwarder(
                                             forward_host=forward_host,
@@ -209,8 +209,9 @@ def publish_processed_network_packets(
                                          network_data["status"]))
                 # end of if valid or not data
             except KeyboardInterrupt as k:
-                log.info(("{} stopping")
-                         .format(name))
+                log.info(("{} stopping for ex={}")
+                         .format(name,
+                                 k))
                 break
             except Exception as e:
                 log.error(("{} failed packaging packet to forward "
@@ -314,7 +315,7 @@ def run_main(
             tasks.put(NetworkPacketTask(source=host,
                                         payload=packet))
 
-        except KeyboardInterrupt as k:
+        except KeyboardInterrupt:
             log.info("Stopping")
             not_done = False
             break

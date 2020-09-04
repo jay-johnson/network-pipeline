@@ -561,7 +561,7 @@ def quiet_ping(hostname, timeout=WAIT_TIMEOUT, count=NUM_PACKETS,
 
     try:
         destIP = socket.gethostbyname(hostname)
-    except socket.gaierror as e:
+    except socket.gaierror:
         return False
 
     myStats.thisIP = destIP
