@@ -8,10 +8,22 @@ try:
 except ImportError:
     from distutils.core import setup
 
-try:
-    from distutils.command.build_py import build_py_2to3 as build_py
-except ImportError:
-    from distutils.command.build_py import build_py
+from setuptools.command.test import test as TestCommand
+
+
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to pytest")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = ''
+
+    def run_tests(self):
+        import shlex
+        # import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(shlex.split(self.pytest_args))
+        sys.exit(errno)
 
 """
 https://packaging.python.org/guides/making-a-pypi-friendly-readme/
@@ -66,7 +78,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "network_pipeline"))
 
 setup(
     name="network-pipeline",
-    cmdclass={"build_py": build_py},
+    cmdclass={'test': PyTest},
     version="1.2.11",
     description=(
         "Distributed Network Packet Analysis Pipeline " +
